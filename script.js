@@ -175,3 +175,45 @@ const io = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.15 });
 revealEls.forEach((el) => io.observe(el));
+
+
+// AJAX submit to contact.php
+if (form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const statusEl = document.getElementById('formStatus');
+    if (statusEl) { statusEl.textContent = 'Надсилаємо...'; statusEl.className = 'form-status'; }
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const consent = document.getElementById('consent').checked;
+
+    // Reuse existing validation
+    const emailRegex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+    const errors = { name: '', email: '', message: '', consent: '' };
+    if (!name) errors.name = 'Будь ласка, вкажіть ім'я';
+    if (!emailRegex.test(email)) errors.email = 'Введіть коректний email';
+    if (!message) errors.message = 'Коротко опишіть ваш запит';
+    if (!consent) errors.consent = 'Потрібна згода на обробку даних';
+    Object.entries(errors).forEach(([k,v]) => { const el = document.querySelector(`small.error[data-for="${k}"]`); if (el) el.textContent = v; });
+    if (Object.values(errors).some(Boolean)) { if (statusEl) { statusEl.textContent = 'Виправте помилки у формі.'; statusEl.className = 'form-status error'; } return; }
+
+    try {
+      const resp = await fetch('./contact.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: new URLSearchParams({ name, email, message, consent: String(consent) }).toString()
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (resp.ok && data.ok) {
+        if (statusEl) { statusEl.textContent = 'Дякуємо! Повідомлення надіслано.'; statusEl.className = 'form-status success'; }
+        form.reset();
+      } else {
+        if (statusEl) { statusEl.textContent = 'Не вдалося надіслати. Спробуйте пізніше.'; statusEl.className = 'form-status error'; }
+      }
+    } catch (err) {
+      if (statusEl) { statusEl.textContent = 'Помилка мережі. Спробуйте ще раз.'; statusEl.className = 'form-status error'; }
+    }
+  });
+}

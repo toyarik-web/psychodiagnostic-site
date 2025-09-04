@@ -159,3 +159,7 @@ small.error { color: var(--red); display: block; min-height: 18px; }
 .fab:hover { transform: translateY(-2px); }
 .fab-wa { background: #25D366; }
 .fab-tg { background: #26A5E4; }
+
+.form-status { margin-top: 10px; font-weight: 600; }
+.form-status.success { color: #10b981; }
+.form-status.error { color: #ef4444; }

@@ -1,0 +1,15 @@
+# Serve index.html by default and prevent directory listing
+DirectoryIndex index.html index.htm index.php
+Options -Indexes
+
+# Sensible MIME types (some hosts misconfigure)
+AddType text/css .css
+AddType application/javascript .js
+AddType image/svg+xml .svg
+
+# If the site is installed in the domain root, leave rewrites off
+# Uncomment to force HTTPS and www (optional)
+# RewriteEngine On
+# RewriteCond %{HTTPS} !=on [OR]
+# RewriteCond %{HTTP_HOST} !^www\.psychodiagnostic\.online$ [NC]
+# RewriteRule ^ https://www.psychodiagnostic.online%{REQUEST_URI} [L,R=301]
