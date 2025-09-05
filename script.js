@@ -1,12 +1,17 @@
+console.info('[site] js loaded v16');
+console.info('[site] js loaded v155');
+document.addEventListener('DOMContentLoaded', function(){
 // Mobile navigation toggle
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
 
 if (navToggle && navMenu) {
-  navToggle.addEventListener('click', () => {
+  navToggle.addEventListener('click', (ev) => {
+      ev && ev.preventDefault && ev.preventDefault();
     const expanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
     navToggle.setAttribute('aria-expanded', String(!expanded));
-    document.body.classList.toggle('nav-open');
+    e && e.preventDefault && e.preventDefault(); const isOpen = document.body.classList.toggle('nav-open');
+      const m = document.querySelector('.nav-menu'); if (m) { m.style.transform = isOpen ? 'translateY(0)' : ''; }
   });
 
   navMenu.addEventListener('click', (e) => {
@@ -110,53 +115,6 @@ accordionItems.forEach((item) => {
   });
 });
 
-// Contact form validation (client-only demo)
-const form = document.getElementById('contactForm');
-if (form) {
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const messageInput = document.getElementById('message');
-    const consentInput = document.getElementById('consent');
-
-    const errors = {
-      name: '',
-      email: '',
-      message: '',
-      consent: ''
-    };
-
-    const emailRegex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
-
-    if (!nameInput.value.trim()) {
-      errors.name = 'Будь ласка, вкажіть ім\'я';
-    }
-    if (!emailRegex.test(emailInput.value)) {
-      errors.email = 'Введіть коректний email';
-    }
-    if (!messageInput.value.trim()) {
-      errors.message = 'Коротко опишіть ваш запит';
-    }
-    if (!consentInput.checked) {
-      errors.consent = 'Потрібна згода на обробку даних';
-    }
-
-    // Show errors
-    Object.entries(errors).forEach(([key, msg]) => {
-      const el = document.querySelector(`small.error[data-for="${key}"]`);
-      if (el) el.textContent = msg;
-    });
-
-    const hasError = Object.values(errors).some(Boolean);
-    if (!hasError) {
-      alert('Дякуємо! Ваше повідомлення надіслано (демо).');
-      form.reset();
-    }
-  });
-}
-
 // Footer year
 const yearEl = document.getElementById('year');
 if (yearEl) {
@@ -178,42 +136,78 @@ revealEls.forEach((el) => io.observe(el));
 
 
 // AJAX submit to contact.php
+const form = document.getElementById('contactForm');
 if (form) {
+  const nameEl = document.getElementById('name');
+  const emailEl = document.getElementById('email');
+  const phoneEl = document.getElementById('phone');
+  const messageEl = document.getElementById('message');
+  const consentEl = document.getElementById('consent');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const statusEl = document.getElementById('formStatus');
+
+  function setError(key, msg) {
+    const el = document.querySelector(`small.error[data-for="${key}"]`);
+    if (el) el.textContent = msg || '';
+  }
+
+  
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const statusEl = document.getElementById('formStatus');
-    if (statusEl) { statusEl.textContent = 'Надсилаємо...'; statusEl.className = 'form-status'; }
+    e.stopPropagation();
+    try { form.setAttribute('action',''); } catch(e) {}
+    
+    console.info('submit: sending');
+    e.stopPropagation();
+    if (form.hasAttribute('action')) form.setAttribute('action','');
 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-    const consent = document.getElementById('consent').checked;
+    setError('name',''); setError('email',''); setError('phone',''); setError('message',''); setError('consent','');
+    if (statusEl) { statusEl.textContent = ''; statusEl.className = 'form-status'; }
 
-    // Reuse existing validation
-    const emailRegex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
-    const errors = { name: '', email: '', message: '', consent: '' };
-    if (!name) errors.name = 'Будь ласка, вкажіть ім'я';
-    if (!emailRegex.test(email)) errors.email = 'Введіть коректний email';
-    if (!message) errors.message = 'Коротко опишіть ваш запит';
-    if (!consent) errors.consent = 'Потрібна згода на обробку даних';
-    Object.entries(errors).forEach(([k,v]) => { const el = document.querySelector(`small.error[data-for="${k}"]`); if (el) el.textContent = v; });
-    if (Object.values(errors).some(Boolean)) { if (statusEl) { statusEl.textContent = 'Виправте помилки у формі.'; statusEl.className = 'form-status error'; } return; }
+    const name = nameEl.value.trim();
+    const email = emailEl.value.trim();
+    const phone = phoneEl ? phoneEl.value.trim() : '';
+    const message = messageEl.value.trim();
+    const consent = !!(consentEl && consentEl.checked);
+
+    if (!name && !email && !phone) {
+      setError('email','Вкажіть хоча б email або телефон');
+      setError('phone','Вкажіть хоча б телефон або email');
+      if (statusEl) { statusEl.textContent = 'Заповніть мінімальні контакти.'; statusEl.className = 'form-status error'; }
+      return;
+    }
 
     try {
+      if (submitBtn) submitBtn.disabled = true;
+      if (statusEl) { statusEl.textContent = 'Надсилаємо...'; statusEl.className = 'form-status'; }
       const resp = await fetch('./contact.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body: new URLSearchParams({ name, email, message, consent: String(consent) }).toString()
+        body: new URLSearchParams({ name, email, phone, message, consent: String(consent), ajax: '1' }).toString()
       });
-      const data = await resp.json().catch(() => ({}));
+      let data={}; try{ data=await resp.json(); }catch(e){ data={ ok: resp.ok }; }
       if (resp.ok && data.ok) {
-        if (statusEl) { statusEl.textContent = 'Дякуємо! Повідомлення надіслано.'; statusEl.className = 'form-status success'; }
+        if (statusEl) { statusEl.textContent = 'Повідомлення відправлено. Дякуємо!'; statusEl.className = 'form-status success'; statusEl.style.display='block'; statusEl.style.display='block'; if (statusEl){ statusEl.style.display='block'; statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
         form.reset();
       } else {
-        if (statusEl) { statusEl.textContent = 'Не вдалося надіслати. Спробуйте пізніше.'; statusEl.className = 'form-status error'; }
+        if (statusEl) { statusEl.textContent = 'Не вдалося надіслати. Спробуйте пізніше.'; statusEl.className = 'form-status error'; statusEl.style.display='block'; statusEl.scrollIntoView({behavior:'smooth',block:'center'}); }
       }
     } catch (err) {
       if (statusEl) { statusEl.textContent = 'Помилка мережі. Спробуйте ще раз.'; statusEl.className = 'form-status error'; }
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
     }
   });
 }
+
+
+// Scroll to top button
+const toTop = document.getElementById('toTop');
+function onScrollTopBtn(){ if(!toTop) return; toTop.classList.toggle('show', window.scrollY > 400); }
+window.addEventListener('scroll', onScrollTopBtn, { passive: true });
+if (toTop) toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// Prevent background scroll when nav open on iOS
+document.addEventListener('touchmove', (ev)=>{ if(document.body.classList.contains('nav-open')) ev.preventDefault(); }, {passive:false});
+
+});

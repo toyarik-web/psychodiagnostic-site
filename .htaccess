@@ -13,3 +13,12 @@ AddType image/svg+xml .svg
 # RewriteCond %{HTTPS} !=on [OR]
 # RewriteCond %{HTTP_HOST} !^www\.psychodiagnostic\.online$ [NC]
 # RewriteRule ^ https://www.psychodiagnostic.online%{REQUEST_URI} [L,R=301]
+
+# Cache-busting and no-transform
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>

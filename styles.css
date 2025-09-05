@@ -1,5 +1,6 @@
 /* Typography & theme */
 :root {
+  --header-h: 64px;
   --bg: #0e0f12;
   --bg-alt: #14161a;
   --surface: #ffffff;
@@ -39,8 +40,8 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 16px; }
  h3 { font-size: 1.25rem; }
 
 /* Header & nav */
-.site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e7eb; }
-.nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e7eb; background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e7eb; }
+.nav { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); }
 .logo { font-weight: 700; color: var(--brand-800); letter-spacing: 0.2px; }
 
 .nav-menu ul { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; }
@@ -133,7 +134,7 @@ small.error { color: var(--red); display: block; min-height: 18px; }
 }
 
 @media (max-width: 720px) {
-  .nav-menu { position: fixed; inset: 64px 0 auto 0; background: #fff; border-bottom: 1px solid #e5e7eb; transform: translateY(-120%); transition: transform .2s ease; }
+  .nav-menu { position: fixed; z-index: 120; inset: 64px 0 auto 0; background: #fff; border-bottom: 1px solid #e5e7eb; transform: translateY(-120%); transition: transform .2s ease; }
   .nav-menu ul { flex-direction: column; padding: 14px; }
   .nav-toggle { display: block; }
   body.nav-open .nav-menu { transform: translateY(0); }
@@ -163,3 +164,57 @@ small.error { color: var(--red); display: block; min-height: 18px; }
 .form-status { margin-top: 10px; font-weight: 600; }
 .form-status.success { color: #10b981; }
 .form-status.error { color: #ef4444; }
+
+.btn[disabled] { opacity: .6; cursor: not-allowed; }
+
+.input-error { border-color: #ef4444 !important; box-shadow: 0 0 0 4px rgba(239,68,68,.15) !important; }
+
+/* Mobile refinements */
+@media (max-width: 720px) {
+  .container { width: 92%; }
+  .section { padding: 56px 0; }
+  .nav { height: 56px; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  .cta .btn { width: 100%; }
+  .two-col { grid-template-columns: 1fr; gap: 20px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .benefits-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .form { padding: 16px; }
+  .form-row { margin-bottom: 12px; }
+  input[type="text"], input[type="email"], input[type="tel"], textarea { font-size: 16px; }
+}
+
+/* Phone input consistency */
+input[type="tel"] { width: 100%; padding: 12px 12px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 1rem; background: #fff; }
+input[type="tel"]:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 4px var(--ring); }
+
+/* Mobile refinements v2 */
+@media (max-width: 720px) {
+  .section { padding: 36px 0; }
+  .nav { height: 56px; }
+  .nav-menu { position: fixed; z-index: 120; inset: 56px 0 0 0; z-index: 120; max-height: calc(100vh - 56px); overflow-y: auto; }
+}
+
+/* To-top button */
+.to-top { position: fixed; right: 16px; bottom: 80px; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #e5e7eb; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.12); display: grid; place-items: center; font-weight: 700; color: #111827; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; z-index: 120; }
+.to-top.show { opacity: 1; pointer-events: auto; }
+.to-top:hover { transform: translateY(-2px); }
+
+body, html { overflow-x: hidden; }
+/* overflow guard */
+
+
+@media (max-width: 720px) {
+  .nav-menu { position: fixed; inset: 56px 0 0 0; background:#fff; border-bottom:1px solid #e5e7eb; transform: translateY(-120%); transition: transform .2s ease; z-index: 220; }
+  body.nav-open .nav-menu { transform: translateY(0); }
+}
+
+body { padding-top: var(--header-h); }
+
+@media (max-width: 720px) {
+  :root { --header-h: 56px; }
+  .nav { height: var(--header-h); }
+  .nav-menu { inset: var(--header-h) 0 0 0; }
+}
