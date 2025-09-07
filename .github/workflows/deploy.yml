@@ -1,0 +1,41 @@
+name: Deploy to server via SCP (SFTP/SSH)
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - ".github/**"
+      - "README.md"
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    name: Upload site files to hosting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Upload via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT }}
+          source: |
+            ./
+          target: ${{ secrets.SFTP_REMOTE_DIR }}
+          overwrite: true
+          strip_components: 0
+          rm: false
+          timeout: 120s
+          exclude: |
+            .git*
+            .github/**
+            **/.DS_Store
+            **/node_modules/**
+            psychodiagnostic-site.zip
+
+
