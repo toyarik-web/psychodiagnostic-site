@@ -1,4 +1,4 @@
-name: Deploy to server via SCP (SFTP/SSH)
+name: Deploy to server via SFTP
 
 on:
   push:
@@ -17,25 +17,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Upload via SCP
-        uses: appleboy/scp-action@v0.1.7
+      - name: Upload via SFTP
+        uses: wangyucode/sftp-upload-action@v2
         with:
           host: ${{ secrets.SFTP_HOST }}
+          port: ${{ secrets.SFTP_PORT }}
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT }}
-          source: |
-            ./
-          target: ${{ secrets.SFTP_REMOTE_DIR }}
-          overwrite: true
-          strip_components: 0
-          rm: false
-          timeout: 120s
-          exclude: |
-            .git*
-            .github/**
-            **/.DS_Store
-            **/node_modules/**
-            psychodiagnostic-site.zip
+          localDir: ./
+          remoteDir: ${{ secrets.SFTP_REMOTE_DIR }}
+          dryRun: false
+          forceUpload: true
+          exclude: .git*,.github/**,**/.DS_Store,**/node_modules/**,psychodiagnostic-site.zip
 
 
