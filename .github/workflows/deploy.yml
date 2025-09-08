@@ -1,4 +1,4 @@
-name: Deploy to server via SFTP
+name: Deploy to server via SSH (rsync)
 
 on:
   push:
@@ -17,21 +17,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Upload via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.SFTP_HOST }}
-          port: ${{ secrets.SFTP_PORT }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          protocol: sftp
-          server-dir: ${{ secrets.SFTP_REMOTE_DIR }}
-          local-dir: ./
-          exclude: |
-            **/.git*
-            **/.github/**
-            **/.DS_Store
-            **/node_modules/**
-            psychodiagnostic-site.zip
+      - name: Prepare SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "${{ secrets.SFTP_PORT }}" -t rsa "${{ secrets.SFTP_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload via rsync over SSH
+        run: |
+          rsync -az --delete \
+            --exclude ".git*" \
+            --exclude ".github/" \
+            --exclude "**/.DS_Store" \
+            --exclude "**/node_modules/**" \
+            --exclude "psychodiagnostic-site.zip" \
+            -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SFTP_PORT }} -o StrictHostKeyChecking=yes" \
+            ./ ${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_REMOTE_DIR }}
 
 
