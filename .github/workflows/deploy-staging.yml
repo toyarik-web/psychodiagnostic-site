@@ -1,0 +1,30 @@
+name: Deploy to staging via SCP (SSH key)
+
+on:
+  push:
+    branches: ["staging"]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    name: Upload site files to staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Upload via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          port: ${{ secrets.SFTP_PORT }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ./
+          target: ${{ secrets.SFTP_REMOTE_DIR_STAGING }}
+          overwrite: true
+          strip_components: 0
+          rm: false
+          timeout: 180s
+
