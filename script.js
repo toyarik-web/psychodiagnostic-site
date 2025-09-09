@@ -9,10 +9,9 @@ const navMenu = document.querySelector('.nav-menu');
 if (navToggle && navMenu) {
   navToggle.addEventListener('click', (ev) => {
     ev && ev.preventDefault && ev.preventDefault();
-    const expanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
-    const next = !expanded;
-    navToggle.setAttribute('aria-expanded', String(next));
+    const next = !(navToggleCheckbox && navToggleCheckbox.checked);
     if (navToggleCheckbox) navToggleCheckbox.checked = next;
+    navToggle.setAttribute('aria-expanded', String(next));
     document.body.classList.toggle('nav-open', next);
     if (navMenu) { navMenu.style.transform = next ? 'translateY(0)' : ''; }
   });
