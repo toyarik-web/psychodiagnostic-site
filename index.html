@@ -22,7 +22,7 @@
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css?v=20" />
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "PsychoDiagnostic", "jobTitle": "Психолог", "description": "Психодіагностика та психологічні консультації", "url": "https://www.psychodiagnostic.online/", "sameAs": ["https://t.me/yourusername", "https://wa.me/00000000000"], "areaServed": "UA", "knowsAbout": ["психодіагностика", "консультації", "тести", "підтримка"], "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "hello@psychodiagnostic.example", "telephone": "+380000000000"}}</script>
-    <link rel="preload" as="script" href="/script.js?v=16" />
+    <link rel="preload" as="script" href="/script.js?v=17" />
   </head>
   <body>
     <header class="site-header" id="top">
@@ -312,35 +312,26 @@
     <button id="toTop" class="to-top" aria-label="До гори">↑</button>
   
   <script>/* INLINE_JS_V161 */(function(){
-    function qs(s){return document.querySelector(s);}
+    function qs(s){return document.querySelector(s);} 
     function qsa(s){return Array.from(document.querySelectorAll(s));}
     function on(el,ev,cb){ if(el) el.addEventListener(ev,cb); }
     document.addEventListener('DOMContentLoaded',function(){
       var navToggle=qs('.nav-toggle'); var navMenu=qs('.nav-menu');
-      on(navToggle,'click',function(){ var exp=(navToggle.getAttribute('aria-expanded')==='true'); navToggle.setAttribute('aria-expanded',String(!exp)); document.body.classList.toggle('nav-open'); });
+      on(navToggle,'click',function(e){ e.preventDefault(); var expanded=(navToggle.getAttribute('aria-expanded')==='true'); navToggle.setAttribute('aria-expanded',String(!expanded)); document.body.classList.toggle('nav-open'); });
       on(navMenu,'click',function(e){ var t=e.target; if(t && t.tagName && t.tagName.toLowerCase()==='a'){ document.body.classList.remove('nav-open'); navToggle&&navToggle.setAttribute('aria-expanded','false'); }});
       var form=qs('#contactForm'); if(form){ form.setAttribute('action',''); var statusEl=qs('#formStatus');
-        on(form,'submit',async function(e){ e.preventDefault(); e.stopPropagation(); try{ form.setAttribute('action',''); }catch(_){}
-          var name=qs('#name')?.value?.trim()||''; var email=qs('#email')?.value?.trim()||''; var phone=qs('#phone')?.value?.trim()||''; var message=qs('#message')?.value?.trim()||''; var consent=qs('#consent')?.checked||false;
-          if(statusEl){ statusEl.textContent='Надсилаємо...'; statusEl.className='form-status'; statusEl.style.display='block'; }
-          try{
-            var resp=await fetch('/contact.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:new URLSearchParams({name,email,phone,message,consent:String(consent),ajax:'1'}).toString()});
-            var ok=false; try{ var data=await resp.json(); ok=!!(data&&data.ok); }catch(_){ ok=resp.ok; }
-            if(ok){ if(statusEl){ statusEl.textContent='Повідомлення відправлено. Дякуємо!'; statusEl.className='form-status success'; statusEl.style.display='block'; } form.reset(); }
-            else { if(statusEl){ statusEl.textContent='Не вдалося надіслати. Спробуйте пізніше.'; statusEl.className='form-status error'; statusEl.style.display='block'; } }
-          }catch(err){ if(statusEl){ statusEl.textContent='Помилка мережі. Спробуйте ще раз.'; statusEl.className='form-status error'; statusEl.style.display='block'; } }
-        });
-      }
+        on(form,'submit',async function(e){ e.preventDefault(); e.stopPropagation(); try{ form.setAttribute('action',''); }catch(_){}}
+      );}
       var toTop=document.getElementById('toTop'); if(toTop){ on(window,'scroll',function(){ toTop.classList.toggle('show', window.scrollY>400); }); on(toTop,'click',function(){ window.scrollTo({top:0,behavior:'smooth'}); }); }
     });
   })();</script>
   
-  <script>/* JS_LOADER_V16 */(function(){
+  <script>/* JS_LOADER_V17 */(function(){
     function inject(src){
       var s=document.createElement('script'); s.src=src; s.defer=true; s.crossOrigin='anonymous';
       s.onload=function(){ console.info('[site] external js loaded', src); };
       s.onerror=function(){
-        if(src.indexOf('retry=1')===-1){ inject('/script.js?v=16&retry=1&ts='+Date.now()); }
+        if(src.indexOf('retry=1')===-1){ inject('/script.js?v=17&retry=1&ts='+Date.now()); }
         else if(src.indexOf('?')===-1){ inject('/script.js?ts='+Date.now()); }
         else {
           var b=document.createElement('div'); b.textContent='JS не завантажився'; b.style='position:fixed;left:12px;bottom:12px;background:#fee;border:1px solid #fca;padding:8px 10px;border-radius:8px;z-index:9999;color:#7f1d1d;font-weight:600'; document.body.appendChild(b);
@@ -348,18 +339,7 @@
       };
       document.body.appendChild(s);
     }
-    inject('/script.js?v=16');
-  })();</script>
-
-  
-  <script>/* NAV_FIX_V17 */(function(){
-    var btn=document.querySelector('.nav-toggle');
-    var menu=document.querySelector('.nav-menu');
-    function headerH(){var sh=document.querySelector('.site-header');return sh?sh.getBoundingClientRect().height:0;}
-    function openMenu(){ document.body.classList.add('nav-open'); if(menu){ menu.style.transform='translateY(0)'; menu.style.willChange='transform'; } if(btn){ btn.setAttribute('aria-expanded','true'); } }
-    function closeMenu(){ document.body.classList.remove('nav-open'); if(menu){ menu.style.transform=''; } if(btn){ btn.setAttribute('aria-expanded','false'); } }
-    if(btn){ btn.onclick=function(e){ e.preventDefault(); if(document.body.classList.contains('nav-open')) closeMenu(); else openMenu(); }; }
-    document.querySelectorAll('.nav-menu a[href^="#"]').forEach(function(a){ a.onclick=function(e){ e.preventDefault(); var id=a.getAttribute('href'); var t=document.querySelector(id); if(t){ var y=t.getBoundingClientRect().top + window.pageYOffset - headerH() - 8; window.scrollTo({top:y,behavior:'smooth'}); } closeMenu(); }; });
+    inject('/script.js?v=17');
   })();</script>
 
   </body>
