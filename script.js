@@ -3,15 +3,18 @@ console.info('[site] js loaded v155');
 document.addEventListener('DOMContentLoaded', function(){
 // Mobile navigation toggle
 const navToggle = document.querySelector('.nav-toggle');
+const navToggleCheckbox = document.getElementById('nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
 
 if (navToggle && navMenu) {
   navToggle.addEventListener('click', (ev) => {
-      ev && ev.preventDefault && ev.preventDefault();
+    ev && ev.preventDefault && ev.preventDefault();
     const expanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
-    navToggle.setAttribute('aria-expanded', String(!expanded));
-    e && e.preventDefault && e.preventDefault(); const isOpen = document.body.classList.toggle('nav-open');
-      const m = document.querySelector('.nav-menu'); if (m) { m.style.transform = isOpen ? 'translateY(0)' : ''; }
+    const next = !expanded;
+    navToggle.setAttribute('aria-expanded', String(next));
+    if (navToggleCheckbox) navToggleCheckbox.checked = next;
+    document.body.classList.toggle('nav-open', next);
+    if (navMenu) { navMenu.style.transform = next ? 'translateY(0)' : ''; }
   });
 
   navMenu.addEventListener('click', (e) => {
@@ -19,6 +22,8 @@ if (navToggle && navMenu) {
     if (target instanceof Element && target.tagName.toLowerCase() === 'a') {
       document.body.classList.remove('nav-open');
       navToggle.setAttribute('aria-expanded', 'false');
+      if (navToggleCheckbox) navToggleCheckbox.checked = false;
+      if (navMenu) navMenu.style.transform = '';
     }
   });
 }
