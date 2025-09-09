@@ -29,7 +29,7 @@ img { max-width: 100%; display: block; border-radius: 12px; }
  a:hover { text-decoration: underline; }
 
 .container { width: min(1100px, 92%); margin: 0 auto; }
-.section { padding: 88px 0; }
+.section { padding: 64px 0; }
 .section-alt { background: #eef1ff; }
 .lead { font-size: 1.125rem; color: #374151; }
 .muted { color: var(--muted); }
@@ -53,7 +53,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 16px; }
 /* Hero */
 .hero { background: linear-gradient(180deg, #f6f7ff 0%, #fff 100%); }
 .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 36px; align-items: center; }
-.hero-text .cta { margin: 20px 0 10px; display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-text .cta { margin: 12px 0 8px; display: flex; gap: 10px; flex-wrap: wrap; }
 .hero-points { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 8px; color: #374151; }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; border-radius: 10px; border: 1px solid transparent; font-weight: 600; transition: transform .08s ease, background .2s ease, border-color .2s ease; cursor: pointer; }
@@ -74,19 +74,19 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 16px; }
 .check-list li::before { content: "✔"; position: absolute; left: 0; top: 0; color: var(--green); }
 
 /* Cards */
-.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; box-shadow: 0 1px 0 rgba(17,24,39,.04); }
 .card-icon { font-size: 28px; }
 .card h3 { margin-top: 8px; }
 .card ul { padding-left: 18px; margin: 10px 0 0; color: #4b5563; }
 
 /* Benefits */
-.benefits-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.benefits-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .benefit { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
 .benefit-icon { font-size: 24px; margin-bottom: 8px; }
 
 /* Steps */
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: steps; list-style: none; padding: 0; margin: 0; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; counter-reset: steps; list-style: none; padding: 0; margin: 0; }
 .steps li { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
 .step-number { display: inline-flex; width: 28px; height: 28px; align-items: center; justify-content: center; background: #eef2ff; color: var(--brand-800); border-radius: 999px; font-weight: 700; margin-right: 8px; }
 
@@ -172,15 +172,15 @@ small.error { color: var(--red); display: block; min-height: 18px; }
 /* Mobile refinements */
 @media (max-width: 720px) {
   .container { width: 92%; }
-  .section { padding: 56px 0; }
+  .section { padding: 40px 0; }
   .nav { height: 56px; }
   h1 { font-size: 2rem; }
   h2 { font-size: 1.5rem; }
   .cta .btn { width: 100%; }
-  .two-col { grid-template-columns: 1fr; gap: 20px; }
-  .cards-grid { grid-template-columns: 1fr; }
-  .benefits-grid { grid-template-columns: 1fr; }
-  .steps { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; gap: 14px; }
+  .cards-grid { grid-template-columns: 1fr; gap: 12px; }
+  .benefits-grid { grid-template-columns: 1fr; gap: 12px; }
+  .steps { grid-template-columns: 1fr; gap: 10px; }
   .form { padding: 16px; }
   .form-row { margin-bottom: 12px; }
   input[type="text"], input[type="email"], input[type="tel"], textarea { font-size: 16px; }
