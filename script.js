@@ -182,6 +182,8 @@ if (form) {
     }
 
     try {
+      console.log('Starting form submission...');
+      console.log('Form data:', { name, email, phone, message, consent });
       if (submitBtn) submitBtn.disabled = true;
       if (statusEl) { statusEl.textContent = 'Надсилаємо...'; statusEl.className = 'form-status'; }
       const resp = await fetch('./contact.php', {
@@ -189,7 +191,8 @@ if (form) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
         body: new URLSearchParams({ name, email, phone, message, consent: String(consent), ajax: '1' }).toString()
       });
-      let data={}; try{ data=await resp.json(); }catch(e){ data={ ok: resp.ok }; }
+      console.log('Response status:', resp.status, 'OK:', resp.ok);
+      let data={}; try{ data=await resp.json(); console.log('Response data:', data); }catch(e){ console.error('JSON parse error:', e); data={ ok: resp.ok }; }
       if (resp.ok && data.ok) {
         if (statusEl) { statusEl.textContent = 'Повідомлення відправлено. Дякуємо!'; statusEl.className = 'form-status success'; statusEl.style.display='block'; statusEl.style.display='block'; if (statusEl){ statusEl.style.display='block'; statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
         form.reset();
