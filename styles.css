@@ -222,3 +222,127 @@ body { padding-top: var(--header-h); }
   .nav { height: var(--header-h); }
   .nav-menu { inset: var(--header-h) 0 0 0; }
 }
+
+/* Scrolling testimonials */
+.scrolling-testimonials {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid #e5e7eb;
+  z-index: 100;
+  padding: 12px 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.scrolling-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.scrolling-content {
+  display: flex;
+  animation: scroll 60s linear infinite;
+  gap: 24px;
+  padding: 0 16px;
+}
+
+.scrolling-content:hover {
+  animation-play-state: paused;
+}
+
+.testimonial-item {
+  flex: 0 0 300px;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #e5e7eb;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.testimonial-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.testimonial-item p {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #374151;
+}
+
+.testimonial-item cite {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-style: normal;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Service prices */
+.service-price {
+  font-weight: 600;
+  color: var(--brand-700);
+  font-size: 0.95rem;
+  margin: 12px 0;
+  padding: 8px 12px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Tests section */
+.tests-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.tests-category h3 {
+  color: var(--brand-700);
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
+.tests-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.test-item {
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  transition: background 0.2s ease;
+}
+
+.test-item:hover {
+  background: var(--brand-50);
+  border-color: var(--brand-200);
+}
+
+.section-intro {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Adjust body padding for fixed testimonials */
+body {
+  padding-bottom: 80px;
+}

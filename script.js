@@ -217,4 +217,38 @@ if (toTop) toTop.addEventListener('click', () => window.scrollTo({ top: 0, behav
 // Prevent background scroll when nav open on iOS
 document.addEventListener('touchmove', (ev)=>{ if(document.body.classList.contains('nav-open')) ev.preventDefault(); }, {passive:false});
 
+// Scrolling testimonials functionality
+function initScrollingTestimonials() {
+  const testimonials = document.querySelector('.scrolling-content');
+  if (!testimonials) return;
+
+  // Pause on touch devices when scrolling
+  let isScrolling = false;
+  testimonials.addEventListener('touchstart', () => {
+    isScrolling = true;
+    testimonials.style.animationPlayState = 'paused';
+  });
+
+  testimonials.addEventListener('touchend', () => {
+    isScrolling = false;
+    setTimeout(() => {
+      if (!isScrolling) {
+        testimonials.style.animationPlayState = 'running';
+      }
+    }, 3000);
+  });
+
+  // Handle visibility changes
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      testimonials.style.animationPlayState = 'paused';
+    } else {
+      testimonials.style.animationPlayState = 'running';
+    }
+  });
+}
+
+// Initialize scrolling testimonials
+initScrollingTestimonials();
+
 });
