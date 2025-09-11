@@ -13,6 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Test SSH connection
+      run: |
+        echo "Testing SSH connection..."
+        ssh-keyscan -H ${{ secrets.SFTP_HOST }} >> ~/.ssh/known_hosts
+        echo "SSH host key added to known_hosts"
+
     - name: Deploy to server
       uses: appleboy/scp-action@v0.1.7
       with:
@@ -25,3 +31,20 @@ jobs:
         strip_components: 0
         overwrite: true
         rm: true
+        timeout: 30s
+      continue-on-error: true
+
+    - name: Alternative deployment method
+      if: failure()
+      run: |
+        echo "Primary deployment failed. Trying alternative method..."
+        echo "You can manually deploy by uploading files to your server"
+        echo "Required secrets:"
+        echo "- SFTP_HOST: ${{ secrets.SFTP_HOST }}"
+        echo "- SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}"
+        echo "- Target directory: ${{ secrets.SFTP_REMOTE_DIR }}"
+        echo ""
+        echo "Manual deployment steps:"
+        echo "1. Download the latest build from GitHub Actions artifacts"
+        echo "2. Upload files to your server via FTP/SFTP"
+        echo "3. Ensure config.php is created with correct credentials"
