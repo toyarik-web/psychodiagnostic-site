@@ -1,0 +1,27 @@
+# Configuration files with sensitive data
+config.php
+
+# Logs
+*.log
+mail.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (if any)
+node_modules/
+
+# Build artifacts
+dist/
+build/

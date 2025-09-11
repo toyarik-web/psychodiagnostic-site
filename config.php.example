@@ -1,11 +1,13 @@
 <?php
-// SMTP configuration (change password later!)
+// SMTP configuration (change password!)
+// Copy this file to config.php and fill in your actual credentials
+
 return [
   'host' => 'mail.adm.tools',
   'port' => 587,
   'secure' => 'tls', // 'ssl' for 465, 'tls' for 587
   'username' => 'info@psychodiagnostic.online',
-  'password' => 'Kickflip@180',
+  'password' => 'YOUR_PASSWORD_HERE',
   'from_email' => 'info@psychodiagnostic.online',
   'from_name' => 'PsychoDiagnostic'
 ];
