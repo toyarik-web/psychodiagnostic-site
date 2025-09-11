@@ -16,7 +16,10 @@ jobs:
     - name: Test SSH connection
       run: |
         echo "Testing SSH connection..."
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
         ssh-keyscan -H ${{ secrets.SFTP_HOST }} >> ~/.ssh/known_hosts
+        chmod 600 ~/.ssh/known_hosts
         echo "SSH host key added to known_hosts"
 
     - name: Deploy to server
