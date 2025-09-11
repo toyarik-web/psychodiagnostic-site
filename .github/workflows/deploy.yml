@@ -35,20 +35,32 @@ jobs:
         overwrite: true
         rm: true
         timeout: 30s
-      continue-on-error: true
+
+    - name: Create config.php on server
+      run: |
+        echo "Creating config.php on server..."
+        ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }} ${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_HOST }} << 'EOF'
+        cd ${{ secrets.SFTP_REMOTE_DIR }}
+        cat > config.php << 'EOL'
+        <?php
+        return [
+          'host' => 'mail.adm.tools',
+          'port' => 587,
+          'secure' => 'tls',
+          'username' => 'info@psychodiagnostic.online',
+          'password' => '${{ secrets.SMTP_PASSWORD }}',
+          'from_email' => 'info@psychodiagnostic.online',
+          'from_name' => 'PsychoDiagnostic'
+        ];
+        EOL
+        echo "config.php created successfully"
+        ls -la config.php
+        EOF
 
     - name: Alternative deployment method
       if: failure()
       run: |
-        echo "Primary deployment failed. Trying alternative method..."
-        echo "You can manually deploy by uploading files to your server"
-        echo "Required secrets:"
-        echo "- SFTP_HOST: ${{ secrets.SFTP_HOST }}"
-        echo "- SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}"
-        echo "- Target directory: ${{ secrets.SFTP_REMOTE_DIR }}"
-        echo "- Correct path should be: /home/toyarik/psychodiagnostic.online/www"
-        echo ""
-        echo "Manual deployment steps:"
-        echo "1. Download the latest build from GitHub Actions artifacts"
-        echo "2. Upload files to your server via FTP/SFTP"
-        echo "3. Ensure config.php is created with correct credentials"
+        echo "Deployment failed. Manual steps:"
+        echo "1. Upload files to: ${{ secrets.SFTP_REMOTE_DIR }}"
+        echo "2. Create config.php on server with SMTP credentials"
+        echo "3. Test contact form functionality"
