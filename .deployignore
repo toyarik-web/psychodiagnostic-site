@@ -1,0 +1,6 @@
+.git/
+.github/
+*.md
+.gitignore
+test-burger.html
+README.md
