@@ -20,6 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare deployment files
+        run: |
+          mkdir -p deploy
+          cp -r * deploy/ 2>/dev/null || true
+          rm -rf deploy/.git deploy/.github deploy/.deployignore
+          rm -f deploy/*.md deploy/.gitignore deploy/test-burger.html
+          ls -la deploy/
+
       - name: Upload via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -27,12 +35,11 @@ jobs:
           port: ${{ secrets.SFTP_PORT }}
           username: ${{ secrets.SFTP_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./"
+          source: "deploy/"
           target: ${{ secrets.SFTP_REMOTE_DIR }}
           overwrite: true
           strip_components: 0
           rm: false
           timeout: 180s
-          exclude: ".git/, .github/, *.md, .gitignore, test-burger.html"
 
 
