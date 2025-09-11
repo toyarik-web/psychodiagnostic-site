@@ -43,6 +43,7 @@ jobs:
         echo "- SFTP_HOST: ${{ secrets.SFTP_HOST }}"
         echo "- SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}"
         echo "- Target directory: ${{ secrets.SFTP_REMOTE_DIR }}"
+        echo "- Correct path should be: /home/toyarik/psychodiagnostic.online/www"
         echo ""
         echo "Manual deployment steps:"
         echo "1. Download the latest build from GitHub Actions artifacts"

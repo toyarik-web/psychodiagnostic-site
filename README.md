@@ -36,7 +36,7 @@ Add repository Secrets in GitHub → Settings → Secrets and variables → Acti
 - `SFTP_PORT` = `22`
 - `SFTP_USERNAME` = `toyarik`
 - `SFTP_PASSWORD` = your SFTP/SSH password (or app password)
-- `SFTP_REMOTE_DIR` = absolute path to site root on the server, e.g. `/home/toyarik/www/psychodiagnostic.online/`
+- `SFTP_REMOTE_DIR` = absolute path to site root on the server, e.g. `/home/toyarik/psychodiagnostic.online/www`
 
 Then push to `main` to trigger deploy. You can also run it manually via `Actions → Deploy to server via SCP`.
 

@@ -11,7 +11,7 @@ echo ""
 SFTP_HOST="toyarik.ftp.tools"
 SFTP_PORT="22"
 SFTP_USER="toyarik"
-REMOTE_DIR="/home/toyarik/www/psychodiagnostic.online/"
+REMOTE_DIR="/home/toyarik/psychodiagnostic.online/www"
 LOCAL_DIR="."
 
 echo "Configuration:"
