@@ -23,7 +23,7 @@ jobs:
         echo "SSH host key added to known_hosts"
 
     - name: Deploy to server
-      uses: appleboy/scp-action@v0.1.7
+      uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SFTP_HOST }}
         port: ${{ secrets.SFTP_PORT }}
@@ -35,6 +35,7 @@ jobs:
         overwrite: true
         rm: true
         timeout: 30s
+        debug: true
 
     - name: Create config.php on server
       run: |

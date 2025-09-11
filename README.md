@@ -41,6 +41,34 @@ Add repository Secrets in GitHub → Settings → Secrets and variables → Acti
 
 Then push to `main` to trigger deploy. You can also run it manually via `Actions → Deploy to server via SCP`.
 
+## Troubleshooting
+
+### Authentication Issues
+If deployment fails with authentication errors:
+
+1. **Check GitHub Secrets** - Ensure all required secrets are set:
+   - `SFTP_HOST` = `toyarik.ftp.tools`
+   - `SFTP_PORT` = `22`
+   - `SFTP_USERNAME` = `toyarik`
+   - `SFTP_PASSWORD` = your SFTP/SSH password
+   - `SMTP_PASSWORD` = your email password
+
+2. **Test Connection Manually:**
+   ```bash
+   ./deploy-simple.sh
+   ```
+
+3. **Server Requirements:**
+   - SSH service must be running
+   - Password authentication must be enabled
+   - No firewall blocking SSH (port 22)
+
+### Alternative Deployment
+If automated deployment fails, use:
+```bash
+./deploy-simple.sh
+```
+
 ## Notes
 
 - The contact form demonstrates client-side validation only.
