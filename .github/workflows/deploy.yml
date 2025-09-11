@@ -1,45 +1,27 @@
-name: Deploy to server via SCP (SSH key)
+name: Deploy to server via SCP
 
 on:
   push:
-    branches: ["main"]
-    paths-ignore:
-      - ".github/**"
-      - "README.md"
-      - ".git/**"
-      - ".gitignore"
-      - "*.md"
-  workflow_dispatch: {}
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy:
-    name: Upload site files to hosting
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Prepare deployment files
-        run: |
-          mkdir -p deploy
-          cp -r * deploy/ 2>/dev/null || true
-          rm -rf deploy/.git deploy/.github deploy/.deployignore
-          rm -f deploy/*.md deploy/.gitignore deploy/test-burger.html
-          ls -la deploy/
-
-      - name: Upload via SCP
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SFTP_HOST }}
-          port: ${{ secrets.SFTP_PORT }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "deploy/"
-          target: ${{ secrets.SFTP_REMOTE_DIR }}
-          overwrite: true
-          strip_components: 0
-          rm: false
-          timeout: 180s
-
-
+    - name: Deploy to server
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.SFTP_HOST }}
+        port: ${{ secrets.SFTP_PORT }}
+        username: ${{ secrets.SFTP_USERNAME }}
+        password: ${{ secrets.SFTP_PASSWORD }}
+        source: "."
+        target: ${{ secrets.SFTP_REMOTE_DIR }}
+        strip_components: 0
+        overwrite: true
+        rm: true
