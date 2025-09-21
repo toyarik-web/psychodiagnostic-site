@@ -1,5 +1,49 @@
 console.info('[site] js loaded v16');
 console.info('[site] js loaded v155');
+alert('SCRIPT.JS LOADED! Modal functionality should work now.');
+console.log('=== MAIN SCRIPT STARTED ===');
+
+// Theme toggle functionality
+function initThemeToggle() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+
+  // Get saved theme or default to dark
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', savedTheme);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  }
+}
+
+// Header scroll effect
+function initHeaderScroll() {
+  const header = document.querySelector('.site-header');
+  let lastScrollY = window.scrollY;
+
+  function updateHeader() {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+
+    lastScrollY = currentScrollY;
+  }
+
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader(); // Initial check
+}
+
 document.addEventListener('DOMContentLoaded', function(){
 // Mobile navigation toggle
 const navToggle = document.querySelector('.nav-toggle');
@@ -126,17 +170,6 @@ if (yearEl) {
 }
 
 
-// Reveal on scroll animations
-const revealEls = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      io.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
-revealEls.forEach((el) => io.observe(el));
 
 
 // AJAX submit to contact.php
@@ -251,4 +284,204 @@ function initScrollingTestimonials() {
 // Initialize scrolling testimonials
 initScrollingTestimonials();
 
+// Initialize theme toggle and header effects
+initThemeToggle();
+initHeaderScroll();
+
+console.log('=== BASIC FUNCTIONS INITIALIZED ===');
+
+// Test if JavaScript works at all
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'theme-toggle') return; // Skip theme toggle
+  console.log('=== PAGE CLICK DETECTED ===', e.target.tagName, e.target.className);
+}, true);
+
+// Test modal functionality
+function initTestModal() {
+  console.log('=== MODAL INIT STARTED ===');
+
+  const modal = document.getElementById('test-modal');
+  const modalContent = document.getElementById('test-modal-content');
+  const closeButtons = document.querySelectorAll('[data-close-modal]');
+  const testButtons = document.querySelectorAll('.test-item');
+
+  // Test information database
+  const testInfo = {
+    'mmpi': {
+      title: 'MMPI (Міннесотський багатопрофільний тест особистості)',
+      description: 'Класичний психодіагностичний інструмент для оцінки особистості та психічного стану.',
+      purpose: 'Виявлення психопатології, оцінка особистісних рис, діагностика психічних розладів.',
+      duration: '45-90 хвилин',
+      application: 'Дорослі від 18 років',
+      reliability: 'Висока надійність, підтверджена десятиріччями досліджень'
+    },
+    'accentuations': {
+      title: 'Тест на акцентуації характеру',
+      description: 'Методика для визначення типів акцентуації характеру за Леонгардом.',
+      purpose: 'Діагностика особливостей характеру, прогнозування поведінки в стресових ситуаціях.',
+      duration: '15-20 хвилин',
+      application: 'Підлітки та дорослі',
+      reliability: 'Добра валідність для діагностики акцентуацій'
+    },
+    'szondi': {
+      title: 'Метод портретних виборів Л. Сонді',
+      description: 'Проективна методика для дослідження несвідомих потягів та інстинктів.',
+      purpose: 'Аналіз глибинних мотивів, дослідження особистості на несвідомому рівні.',
+      duration: '20-30 хвилин',
+      application: 'Дорослі',
+      reliability: 'Висока валідність для дослідження несвідомого'
+    },
+    'ctl': {
+      title: 'КТЛ (колірний тест Люшера)',
+      description: 'Методика для оцінки психоемоційного стану через вибір кольорів.',
+      purpose: 'Діагностика стресу, емоційного вигорання, рівня адаптації.',
+      duration: '10-15 хвилин',
+      application: 'Діти від 3 років, підлітки, дорослі',
+      reliability: 'Перевірена методика з хорошою надійністю'
+    },
+    'dass21': {
+      title: 'DASS-21 (Шкала депресії, тривоги та стресу)',
+      description: 'Коротка версія опитувальника для оцінки емоційного стану.',
+      purpose: 'Вимірювання рівня депресії, тривоги та стресу.',
+      duration: '5-10 хвилин',
+      application: 'Підлітки та дорослі',
+      reliability: 'Висока надійність та валідність'
+    },
+    'phq9': {
+      title: 'PHQ-9 (Шкала пацієнта з питань здоров\'я - депресія)',
+      description: 'Стандартизований опитувальник для діагностики депресії.',
+      purpose: 'Оцінка тяжкості депресивних симптомів, моніторинг лікування.',
+      duration: '5 хвилин',
+      application: 'Дорослі',
+      reliability: 'Золотистий стандарт для скринінгу депресії'
+    },
+    'gad7': {
+      title: 'GAD-7 (Шкала генералізованої тривоги)',
+      description: 'Опитувальник для оцінки генералізованої тривоги.',
+      purpose: 'Діагностика тривожних розладів, оцінка тяжкості симптомів.',
+      duration: '5 хвилин',
+      application: 'Підлітки та дорослі',
+      reliability: 'Висока чутливість та специфічність'
+    },
+    'pcl5': {
+      title: 'PCL-5 (Контрольний список симптомів ПТСР)',
+      description: 'Сучасна версія діагностики посттравматичного стресового розладу.',
+      purpose: 'Діагностика ПТСР, оцінка тяжкості симптомів.',
+      duration: '10-15 хвилин',
+      application: 'Дорослі',
+      reliability: 'Затверджена DSM-5'
+    },
+    'epds': {
+      title: 'EPDS (Шкала Единбурга післяпологової депресії)',
+      description: 'Спеціалізований тест для виявлення післяпологової депресії.',
+      purpose: 'Скринінг післяпологової депресії у матерів.',
+      duration: '5 хвилин',
+      application: 'Жінки після пологів',
+      reliability: 'Золотистий стандарт для післяпологової депресії'
+    },
+    'audit': {
+      title: 'AUDIT (Тест ідентифікації проблем алкоголю)',
+      description: 'Міжнародний стандартизований тест для оцінки алкогольних проблем.',
+      purpose: 'Виявлення ризикованого вживання алкоголю та алкогольної залежності.',
+      duration: '5 хвилин',
+      application: 'Дорослі',
+      reliability: 'Рекомендований ВООЗ'
+    },
+    'asq3': {
+      title: 'ASQ-3 (Скринінг розвитку дитини)',
+      description: 'Стандартизований інструмент для оцінки розвитку дитини.',
+      purpose: 'Виявлення затримок у розвитку, оцінка когнітивних, мовних та моторних навичок.',
+      duration: '10-15 хвилин',
+      application: 'Діти від 1 місяця до 5.5 років',
+      reliability: 'Висока надійність для скринінгу'
+    }
+  };
+
+  // Show modal with test info
+  function showTestModal(testId) {
+    const info = testInfo[testId];
+
+    if (!info) {
+      modalContent.innerHTML = `
+        <h4>Інформація недоступна</h4>
+        <p>На жаль, детальна інформація про цей тест ще не додана до системи.</p>
+        <p><strong>ID тесту:</strong> ${testId}</p>
+      `;
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+
+    modalContent.innerHTML = `
+      <h4>${info.title}</h4>
+      <p><strong>Опис:</strong> ${info.description}</p>
+      <p><strong>Призначення:</strong> ${info.purpose}</p>
+      <p><strong>Тривалість:</strong> ${info.duration}</p>
+      <p><strong>Застосування:</strong> ${info.application}</p>
+      <p><strong>Надійність:</strong> ${info.reliability}</p>
+    `;
+
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Hide modal
+  function hideTestModal() {
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Event listeners
+  testButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      console.log('=== TEST BUTTON CLICKED ===', e.target.getAttribute('data-test'));
+      e.preventDefault();
+      e.stopPropagation();
+      const testId = button.getAttribute('data-test');
+      showTestModal(testId);
+    });
+  });
+
+  closeButtons.forEach(button => {
+    button.addEventListener('click', hideTestModal);
+  });
+
+  // Close on overlay click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal.querySelector('.modal-overlay')) {
+      hideTestModal();
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+      hideTestModal();
+    }
+  });
+
+  console.log('=== MODAL INIT COMPLETED ===');
+}
+
+// Initialize test modal when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('=== DOM CONTENT LOADED ===');
+  initTestModal();
 });
+
+// Also try to initialize immediately if DOM is already loaded
+if (document.readyState === 'loading') {
+  // Wait for DOMContentLoaded
+} else {
+  console.log('=== CALLING MODAL INIT ===');
+  initTestModal();
+}
+
+// Test if modal elements exist
+console.log('=== CHECKING MODAL ELEMENTS ===');
+setTimeout(() => {
+  const modal = document.getElementById('test-modal');
+  const testButtons = document.querySelectorAll('.test-item');
+  console.log('Modal element:', modal);
+  console.log('Test buttons count:', testButtons.length);
+}, 100);

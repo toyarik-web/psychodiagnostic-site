@@ -20,11 +20,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=20" />
+    <link rel="stylesheet" href="/styles.css?v=80" />
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "PsychoDiagnostic", "jobTitle": "Психолог", "description": "Психодіагностика та психологічні консультації", "url": "https://www.psychodiagnostic.online/", "sameAs": ["https://t.me/yourusername", "https://wa.me/00000000000"], "areaServed": "UA", "knowsAbout": ["психодіагностика", "консультації", "тести", "підтримка"], "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "hello@psychodiagnostic.example", "telephone": "+380000000000"}}</script>
-    <link rel="preload" as="script" href="/script.js?v=17" />
+    
   </head>
   <body>
+
     <header class="site-header" id="top">
       <div class="container nav">
         <a href="#hero" class="logo">PsychoDiagnostic</a>
@@ -46,11 +47,17 @@
             <li><a href="#contact">Контакти</a></li>
           </ul>
         </nav>
+
+            <button class="theme-toggle" id="theme-toggle" aria-label="Перемкнути тему">
+          <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+          </svg>
+        </button>
       </div>
     </header>
 
     <main>
-      <section class="hero section reveal" id="hero">
+      <section class="hero section" id="hero">
         <div class="container hero-grid">
           <div class="hero-text">
             <h1>Психодіагностика та психологічна підтримка</h1>
@@ -60,7 +67,7 @@
               <a class="btn btn-secondary" href="#services">Дізнатися більше</a>
             </div>
             <ul class="hero-points">
-              <li>Онлайн та офлайн сесії</li>
+              <li>Тільки онлайн сесії</li>
               <li>Науково обґрунтовані методики</li>
               <li>Персональний план дій</li>
             </ul>
@@ -138,54 +145,203 @@
             <div class="tests-category">
               <h3>Основні методики</h3>
               <div class="tests-list">
-                <div class="test-item">MMPI (ММІЛ)</div>
-                <div class="test-item">Акцентуації характеру</div>
-                <div class="test-item">Метод портретних виборів Л. Сонді</div>
-                <div class="test-item">КТЛ - парний</div>
+                <button class="test-item" type="button" data-test="mmpi">MMPI (ММІЛ)</button>
+                <div class="test-description">
+                  <h4>MMPI (Мінісотаський багатопрофільний тест особистості)</h4>
+                  <p>Стандартний психодіагностичний інструмент для оцінки психологічних характеристик особистості. Використовується для діагностики психічних розладів та особистісних особливостей. Тест включає 567 питань та оцінює 10 основних шкал.</p>
+                </div>
+                <button class="test-item" type="button" data-test="accentuations">Акцентуації характеру</button>
+                <div class="test-description">
+                  <h4>Акцентуації характеру (за Леонгардом)</h4>
+                  <p>Методика для визначення типів акцентуації характеру за К. Леонгардом. Допомагає зрозуміти особливості темпераменту та характеру людини, що дозволяє прогнозувати поведінку в різних ситуаціях.</p>
+                </div>
+                <button class="test-item" type="button" data-test="szondi">Метод портретних виборів Л. Сонді</button>
+                <div class="test-description">
+                  <h4>Метод портретних виборів Л. Сонді</h4>
+                  <p>Проективна методика для дослідження несвідомих потягів та інстинктів. Використовує портрети людей з різними психічними розладами. Допомагає зрозуміти приховані мотиви та потреби.</p>
+                </div>
+                <button class="test-item" type="button" data-test="ctl">КТЛ - парний</button>
+                <div class="test-description">
+                  <h4>КТЛ - парний (Кільцевий тест Люшера)</h4>
+                  <p>Колірний тест Люшера для діагностики психоемоційного стану. Визначає рівень тривоги, стресу та загального емоційного комфорту. Показує, як людина справляється з життєвими труднощами.</p>
+                </div>
               </div>
             </div>
 
             <div class="tests-category">
               <h3>Спеціалізовані тести</h3>
               <div class="tests-list">
-                <div class="test-item">ASQ-3</div>
-                <div class="test-item">AUDIT</div>
-                <div class="test-item">CASD-SF</div>
-                <div class="test-item">CATS-2</div>
-                <div class="test-item">CBDS</div>
-                <div class="test-item">CRAFFT</div>
-                <div class="test-item">CRIES-8</div>
-                <div class="test-item">DASS-21</div>
-                <div class="test-item">DERS</div>
-                <div class="test-item">DRRI-2</div>
-                <div class="test-item">DUDIT</div>
-                <div class="test-item">EPDS</div>
-                <div class="test-item">GAD-7</div>
-                <div class="test-item">GDS</div>
-                <div class="test-item">GIRL</div>
-                <div class="test-item">ITQ</div>
-                <div class="test-item">IUS-12</div>
-                <div class="test-item">MBHS-2</div>
-                <div class="test-item">MFQ</div>
-                <div class="test-item">MHAI</div>
-                <div class="test-item">MPR</div>
-                <div class="test-item">MPSS</div>
-                <div class="test-item">PAI</div>
-                <div class="test-item">PC-PTSD-5</div>
-                <div class="test-item">PCL-5</div>
-                <div class="test-item">PHQ-9</div>
-                <div class="test-item">PSC</div>
-                <div class="test-item">PSS</div>
-                <div class="test-item">QuickSCID-5</div>
-                <div class="test-item">SCAS</div>
-                <div class="test-item">TEOSQ</div>
-                <div class="test-item">VADPRS</div>
-                <div class="test-item">WHODAS</div>
+                <button class="test-item" type="button" data-test="asq3">ASQ-3</button>
+                <div class="test-description">
+                  <h4>ASQ-3 (Ages & Stages Questionnaires)</h4>
+                  <p>Опитувальник для оцінки розвитку дітей від 1 до 66 місяців. Виявляє затримки в розвитку та допомагає вчасно розпочати корекційну роботу.</p>
+                </div>
+                <button class="test-item" type="button" data-test="audit">AUDIT</button>
+                <div class="test-description">
+                  <h4>AUDIT (Alcohol Use Disorders Identification Test)</h4>
+                  <p>Тест для виявлення проблем, пов'язаних з вживанням алкоголю. Допомагає визначити ризики алкогольної залежності та необхідність втручання.</p>
+                </div>
+                <button class="test-item" type="button" data-test="casd-sf">CASD-SF</button>
+                <div class="test-description">
+                  <h4>CASD-SF</h4>
+                  <p>Коротка форма шкали тривоги та депресії для дітей. Використовується для швидкої діагностики емоційних проблем у дітей.</p>
+                </div>
+                <button class="test-item" type="button" data-test="cats2">CATS-2</button>
+                <div class="test-description">
+                  <h4>CATS-2</h4>
+                  <p>Шкала травми для дітей та підлітків. Оцінює вплив травматичних подій на психічне здоров'я дітей.</p>
+                </div>
+                <button class="test-item" type="button" data-test="cbds">CBDS</button>
+                <div class="test-description">
+                  <h4>CBDS</h4>
+                  <p>Шкала депресії для дітей та підлітків. Допомагає діагностувати депресивні стани у молодого покоління.</p>
+                </div>
+                <button class="test-item" type="button" data-test="crafft">CRAFFT</button>
+                <div class="test-description">
+                  <h4>CRAFFT</h4>
+                  <p>Скринінговий тест на вживання речовин серед підлітків. Виявляє ризики залежності від алкоголю та наркотиків.</p>
+                </div>
+                <button class="test-item" type="button" data-test="cries8">CRIES-8</button>
+                <div class="test-description">
+                  <h4>CRIES-8</h4>
+                  <p>Шкала посттравматичного стресу для дітей. Оцінює симптоми ПТСР після травматичних подій.</p>
+                </div>
+                <button class="test-item" type="button" data-test="dass21">DASS-21</button>
+                <div class="test-description">
+                  <h4>DASS-21 (Depression Anxiety Stress Scales)</h4>
+                  <p>Коротка версія опитувальника для діагностики депресії, тривоги та стресу. Допомагає визначити ступінь вираженості цих станів та відстежувати динаміку лікування.</p>
+                </div>
+                <button class="test-item" type="button" data-test="ders">DERS</button>
+                <div class="test-description">
+                  <h4>DERS</h4>
+                  <p>Шкала регуляції емоцій. Оцінює здатність людини керувати своїми емоціями та справлятися з емоційними труднощами.</p>
+                </div>
+                <button class="test-item" type="button" data-test="drri2">DRRI-2</button>
+                <div class="test-description">
+                  <h4>DRRI-2</h4>
+                  <p>Шкала стресу після розлучення. Допомагає оцінити вплив розлучення на психічне здоров'я батьків та дітей.</p>
+                </div>
+                <button class="test-item" type="button" data-test="dudit">DUDIT</button>
+                <div class="test-description">
+                  <h4>DUDIT</h4>
+                  <p>Шкала залежності від наркотиків. Використовується для діагностики проблем з вживанням наркотичних речовин.</p>
+                </div>
+                <button class="test-item" type="button" data-test="epds">EPDS</button>
+                <div class="test-description">
+                  <h4>EPDS (Edinburgh Postnatal Depression Scale)</h4>
+                  <p>Опитувальник для діагностики післяпологової депресії. Призначений для жінок після пологів для своєчасного виявлення депресивних станів.</p>
+                </div>
+                <button class="test-item" type="button" data-test="gad7">GAD-7</button>
+                <div class="test-description">
+                  <h4>GAD-7 (Generalized Anxiety Disorder)</h4>
+                  <p>Опитувальник для діагностики генералізованого тривожного розладу. Визначає ступінь тривоги та допомагає оцінити ефективність терапії.</p>
+                </div>
+                <button class="test-item" type="button" data-test="gds">GDS</button>
+                <div class="test-description">
+                  <h4>GDS</h4>
+                  <p>Шкала депресії для літніх людей. Призначена для діагностики депресії у осіб похилого віку.</p>
+                </div>
+                <button class="test-item" type="button" data-test="girl">GIRL</button>
+                <div class="test-description">
+                  <h4>GIRL</h4>
+                  <p>Шкала для оцінки впливу гендерної ідентичності на психічне здоров'я. Допомагає зрозуміти особливості гендерного розвитку.</p>
+                </div>
+                <button class="test-item" type="button" data-test="itq">ITQ</button>
+                <div class="test-description">
+                  <h4>ITQ</h4>
+                  <p>Міжнародна шкала травми. Використовується для діагностики складного ПТСР та дисоціативних розладів.</p>
+                </div>
+                <button class="test-item" type="button" data-test="ius12">IUS-12</button>
+                <div class="test-description">
+                  <h4>IUS-12</h4>
+                  <p>Шкала непевності в майбутньому. Оцінює рівень тривоги, пов'язаної з невизначеністю та майбутніми подіями.</p>
+                </div>
+                <button class="test-item" type="button" data-test="mbhs2">MBHS-2</button>
+                <div class="test-description">
+                  <h4>MBHS-2</h4>
+                  <p>Шкала здоров'я матері та дитини. Допомагає оцінити психічне здоров'я матерів та їх вплив на дітей.</p>
+                </div>
+                <button class="test-item" type="button" data-test="mfq">MFQ</button>
+                <div class="test-description">
+                  <h4>MFQ</h4>
+                  <p>Опитувальник депресії для дітей та підлітків. Використовується для діагностики депресивних станів у молодому віці.</p>
+                </div>
+                <button class="test-item" type="button" data-test="mhai">MHAI</button>
+                <div class="test-description">
+                  <h4>MHAI</h4>
+                  <p>Шкала здоров'я сім'ї. Оцінює психічне здоров'я членів сім'ї та сімейні стосунки.</p>
+                </div>
+                <button class="test-item" type="button" data-test="mpr">MPR</button>
+                <div class="test-description">
+                  <h4>MPR</h4>
+                  <p>Шкала материнського пресордингу. Допомагає оцінити психологічну готовність до материнства.</p>
+                </div>
+                <button class="test-item" type="button" data-test="mpss">MPSS</button>
+                <div class="test-description">
+                  <h4>MPSS</h4>
+                  <p>Шкала сприйнятої соціальної підтримки. Оцінює рівень соціальної підтримки, яку відчуває людина.</p>
+                </div>
+                <button class="test-item" type="button" data-test="pai">PAI</button>
+                <div class="test-description">
+                  <h4>PAI</h4>
+                  <p>Шкала впливу на дитину. Допомагає оцінити вплив батьківських конфліктів на психіку дитини.</p>
+                </div>
+                <button class="test-item" type="button" data-test="pc-ptsd5">PC-PTSD-5</button>
+                <div class="test-description">
+                  <h4>PC-PTSD-5</h4>
+                  <p>Первинний скринінг на ПТСР. Короткий тест для швидкого виявлення симптомів посттравматичного стресового розладу.</p>
+                </div>
+                <button class="test-item" type="button" data-test="pcl5">PCL-5</button>
+                <div class="test-description">
+                  <h4>PCL-5 (PTSD Checklist)</h4>
+                  <p>Опитувальник для діагностики посттравматичного стресового розладу. Оцінює симптоми ПТСР після травматичних подій.</p>
+                </div>
+                <button class="test-item" type="button" data-test="phq9">PHQ-9</button>
+                <div class="test-description">
+                  <h4>PHQ-9 (Patient Health Questionnaire)</h4>
+                  <p>Стандартизований опитувальник для діагностики депресії. Оцінює тяжкість депресивних симптомів та допомагає визначити необхідність професійної допомоги.</p>
+                </div>
+                <button class="test-item" type="button" data-test="psc">PSC</button>
+                <div class="test-description">
+                  <h4>PSC</h4>
+                  <p>Шкала функціонування дитини. Оцінює психічне здоров'я та функціонування дітей у різних сферах життя.</p>
+                </div>
+                <button class="test-item" type="button" data-test="pss">PSS</button>
+                <div class="test-description">
+                  <h4>PSS</h4>
+                  <p>Шкала сприйнятого стресу. Оцінює рівень стресу, який людина відчуває в своєму житті.</p>
+                </div>
+                <button class="test-item" type="button" data-test="quickscid5">QuickSCID-5</button>
+                <div class="test-description">
+                  <h4>QuickSCID-5</h4>
+                  <p>Швидкий скринінг психічних розладів за DSM-5. Допомагає швидко визначити наявність психічних захворювань.</p>
+                </div>
+                <button class="test-item" type="button" data-test="scas">SCAS</button>
+                <div class="test-description">
+                  <h4>SCAS</h4>
+                  <p>Шкала тривоги для дітей та підлітків. Оцінює різні види тривожних розладів у дітей.</p>
+                </div>
+                <button class="test-item" type="button" data-test="teosq">TEOSQ</button>
+                <div class="test-description">
+                  <h4>TEOSQ</h4>
+                  <p>Шкала емоційної обізнаності. Оцінює здатність людини розпізнавати та розуміти власні емоції.</p>
+                </div>
+                <button class="test-item" type="button" data-test="vadprs">VADPRS</button>
+                <div class="test-description">
+                  <h4>VADPRS</h4>
+                  <p>Шкала депресії для підлітків. Використовується для діагностики депресивних станів у юнацькому віці.</p>
+                </div>
+                <button class="test-item" type="button" data-test="whodas">WHODAS</button>
+                <div class="test-description">
+                  <h4>WHODAS</h4>
+                  <p>Шкала функціонування ВООЗ. Оцінює обмеження функціонування через здоров'я та інвалідність.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       <section class="section" id="testimonials">
         <div class="container">
@@ -207,7 +363,7 @@
         </div>
       </section>
 
-      <section class="section section-alt reveal" id="benefits">
+      <section class="section section-alt" id="benefits">
         <div class="container">
           <h2>Чому це працює</h2>
           <div class="benefits-grid">
@@ -312,7 +468,7 @@
             <div class="accordion-item">
               <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-1" id="faq-trigger-1">Скільки триває сесія?</button>
               <div id="faq-panel-1" class="accordion-panel" role="region" aria-labelledby="faq-trigger-1">
-                <p>Зазвичай 50–60 хвилин. Формат — онлайн або офлайн.</p>
+                <p>Зазвичай 50–60 хвилин. Формат — тільки онлайн.</p>
               </div>
             </div>
             <div class="accordion-item">
@@ -427,28 +583,55 @@
       on(navToggle,'click',function(e){ e.preventDefault(); var expanded=(navToggle.getAttribute('aria-expanded')==='true'); navToggle.setAttribute('aria-expanded',String(!expanded)); document.body.classList.toggle('nav-open'); });
       on(navMenu,'click',function(e){ var t=e.target; if(t && t.tagName && t.tagName.toLowerCase()==='a'){ document.body.classList.remove('nav-open'); navToggle&&navToggle.setAttribute('aria-expanded','false'); }});
       var form=qs('#contactForm'); if(form){ form.setAttribute('action',''); var statusEl=qs('#formStatus');
-        on(form,'submit',async function(e){ e.preventDefault(); e.stopPropagation(); try{ form.setAttribute('action',''); }catch(_){}}
-      );}
+        on(form,'submit',async function(e){ e.preventDefault(); e.stopPropagation(); try{ form.setAttribute('action',''); }catch(_){} });});
+      }
       var toTop=document.getElementById('toTop'); if(toTop){ on(window,'scroll',function(){ toTop.classList.toggle('show', window.scrollY>400); }); on(toTop,'click',function(){ window.scrollTo({top:0,behavior:'smooth'}); }); }
     });
   })();</script>
   
-  <script>/* JS_LOADER_V17 */(function(){
-    function inject(src){
-      var s=document.createElement('script'); s.src=src; s.defer=true; s.crossOrigin='anonymous';
-      s.onload=function(){ console.info('[site] external js loaded', src); };
-      s.onerror=function(){
-        if(src.indexOf('retry=1')===-1){ inject('/script.js?v=17&retry=1&ts='+Date.now()); }
-        else if(src.indexOf('?')===-1){ inject('/script.js?ts='+Date.now()); }
-        else {
-          var b=document.createElement('div'); b.textContent='JS не завантажився'; b.style='position:fixed;left:12px;bottom:12px;background:#fee;border:1px solid #fca;padding:8px 10px;border-radius:8px;z-index:9999;color:#7f1d1d;font-weight:600'; document.body.appendChild(b);
-        }
-      };
-      document.body.appendChild(s);
-    }
-    inject('/script.js?v=17');
-  })();</script>
 
+  <script>
+    // Simple accordion functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Find all test buttons
+      const testButtons = document.querySelectorAll('.test-item[data-test]');
+
+      testButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Find the description div that follows this button
+          const description = this.nextElementSibling;
+
+          if (description && description.classList.contains('test-description')) {
+            // Close all other descriptions
+            document.querySelectorAll('.test-description.show').forEach(desc => {
+              if (desc !== description) {
+                desc.classList.remove('show');
+              }
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.test-item.active').forEach(btn => {
+              if (btn !== this) {
+                btn.classList.remove('active');
+              }
+            });
+
+            // Toggle this description
+            if (description.classList.contains('show')) {
+              description.classList.remove('show');
+              this.classList.remove('active');
+            } else {
+              description.classList.add('show');
+              this.classList.add('active');
+            }
+          }
+        });
+      });
+    });
+  </script>
+
+
+  <!-- <script src="/script-main.js?v=1" defer></script> -->
   </body>
   </html>
 <!-- Deploy test: Thu Sep 11 01:02:46 WEST 2025 -->
