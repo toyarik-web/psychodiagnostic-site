@@ -591,39 +591,30 @@
   
 
   <script>
-    // Simple accordion functionality
+    // Accordion functionality for test descriptions
     document.addEventListener('DOMContentLoaded', function() {
       // Find all test buttons
       const testButtons = document.querySelectorAll('.test-item[data-test]');
 
-      testButtons.forEach(button => {
+      testButtons.forEach(function(button) {
         button.addEventListener('click', function() {
           // Find the description div that follows this button
           const description = this.nextElementSibling;
 
           if (description && description.classList.contains('test-description')) {
-            // Close all other descriptions
-            document.querySelectorAll('.test-description.show').forEach(desc => {
-              if (desc !== description) {
-                desc.classList.remove('show');
-              }
+            // Close all other descriptions first
+            document.querySelectorAll('.test-description.show').forEach(function(desc) {
+              desc.classList.remove('show');
             });
 
             // Remove active class from all buttons
-            document.querySelectorAll('.test-item.active').forEach(btn => {
-              if (btn !== this) {
-                btn.classList.remove('active');
-              }
+            document.querySelectorAll('.test-item.active').forEach(function(btn) {
+              btn.classList.remove('active');
             });
 
-            // Toggle this description
-            if (description.classList.contains('show')) {
-              description.classList.remove('show');
-              this.classList.remove('active');
-            } else {
-              description.classList.add('show');
-              this.classList.add('active');
-            }
+            // Open this description
+            description.classList.add('show');
+            this.classList.add('active');
           }
         });
       });
@@ -631,7 +622,7 @@
   </script>
 
 
-  <!-- <script src="/script-main.js?v=1" defer></script> -->
+  <script src="/script.js?v=54"></script>
   </body>
   </html>
 <!-- Deploy test: Thu Sep 11 01:02:46 WEST 2025 -->
