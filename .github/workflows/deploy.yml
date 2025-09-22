@@ -29,20 +29,17 @@ jobs:
         # Test basic FTP connection
         timeout 10 bash -c "</dev/tcp/${{ secrets.FTPSERVER }}/${{ secrets.FTPPORT }}" && echo "✅ Port is open" || echo "❌ Port is closed or unreachable"
 
-    - name: Deploy via FTPS
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: ${{ secrets.FTPSERVER }}
-        username: ${{ secrets.USERFTP }}
-        password: ${{ secrets.PASSWORDFTP }}
-        server-dir: ${{ secrets.FTP_REMOTE_DIR }}
-        port: ${{ secrets.FTPPORT }}
-        protocol: ftps
-        exclude: |
-          **/.git*
-          **/.github*
-          **/README.md
-          **/deploy-prod.sh
-          **/ftp_batch.txt
-        timeout: 60
-        log-level: verbose
+    - name: Deploy via LFTP (alternative FTP client)
+      run: |
+        echo "Deploying via LFTP..."
+        sudo apt-get update && sudo apt-get install -y lftp
+
+        lftp -c "
+        set ftp:ssl-force true
+        set ftp:ssl-protect-data true
+        set ssl:verify-certificate no
+        open -u ${{ secrets.USERFTP }},${{ secrets.PASSWORDFTP }} ${{ secrets.FTPSERVER }}:${{ secrets.FTPPORT }}
+        cd ${{ secrets.FTP_REMOTE_DIR }}
+        mirror -R -v --exclude='^\.git' --exclude='^\.github' --exclude='README\.md' --exclude='deploy-prod\.sh' --exclude='ftp_batch\.txt' . .
+        bye
+        "
