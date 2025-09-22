@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initThemeToggle();
   initHeaderScroll();
   initAccordion();
+  initFAQAccordion();
 
   // Navigation toggle
   const navToggle = document.querySelector('.nav-toggle');
@@ -156,6 +157,49 @@ const toTop = document.getElementById('toTop');
     });
   }
 });
+
+// FAQ Accordion functionality
+function initFAQAccordion() {
+  console.log('=== INITIALIZING FAQ ACCORDION ===');
+  const triggers = document.querySelectorAll('.accordion-trigger');
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', function() {
+      const item = this.parentElement;
+      const panel = this.nextElementSibling;
+      const isExpanded = item.classList.contains('expanded');
+
+      // Close all FAQ items first
+      document.querySelectorAll('.accordion-item').forEach(otherItem => {
+        otherItem.classList.remove('expanded');
+        const otherPanel = otherItem.querySelector('.accordion-panel');
+        if (otherPanel) {
+          otherPanel.style.height = '0';
+        }
+        const otherTrigger = otherItem.querySelector('.accordion-trigger');
+        if (otherTrigger) {
+          otherTrigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // If this item wasn't expanded, expand it
+      if (!isExpanded) {
+        item.classList.add('expanded');
+        this.setAttribute('aria-expanded', 'true');
+
+        // Set height for smooth animation
+        if (panel) {
+          panel.style.height = panel.scrollHeight + 'px';
+        }
+      } else {
+        // If it was expanded, it will be closed by the code above
+        this.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  console.log('=== FAQ ACCORDION INITIALIZED ===');
+}
 
 // Testimonials functionality removed - using simple static display
 
