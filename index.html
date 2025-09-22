@@ -16,11 +16,13 @@
     <meta name="twitter:description" content="Комплексна оцінка стану, індивідуальні рекомендації та супровід." />
     <meta name="theme-color" content="#6366f1" />
     <title>Психодіагностика — консультації, тести, підтримка</title>
+
+    <script src="/script.js?v=1005"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=80" />
+    <link rel="stylesheet" href="/styles.css?v=82" />
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "PsychoDiagnostic", "jobTitle": "Психолог", "description": "Психодіагностика та психологічні консультації", "url": "https://www.psychodiagnostic.online/", "sameAs": ["https://t.me/yourusername", "https://wa.me/00000000000"], "areaServed": "UA", "knowsAbout": ["психодіагностика", "консультації", "тести", "підтримка"], "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "hello@psychodiagnostic.example", "telephone": "+380000000000"}}</script>
     
   </head>
@@ -41,7 +43,6 @@
           <ul>
             <li><a href="#about">Про мене</a></li>
             <li><a href="#services">Послуги</a></li>
-            <li><a href="#testimonials">Відгуки</a></li>
             <li><a href="#benefits">Переваги</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#contact">Контакти</a></li>
@@ -141,34 +142,35 @@
           <h2>Тести та методики</h2>
           <p class="section-intro">Використовую сучасні науково обґрунтовані методики для діагностики:</p>
 
-          <div class="tests-grid">
-            <div class="tests-category">
+          <!-- Основні методики в один ряд -->
+          <div class="tests-category main-tests">
               <h3>Основні методики</h3>
               <div class="tests-list">
-                <button class="test-item" type="button" data-test="mmpi">MMPI (ММІЛ)</button>
-                <div class="test-description">
-                  <h4>MMPI (Мінісотаський багатопрофільний тест особистості)</h4>
-                  <p>Стандартний психодіагностичний інструмент для оцінки психологічних характеристик особистості. Використовується для діагностики психічних розладів та особистісних особливостей. Тест включає 567 питань та оцінює 10 основних шкал.</p>
-                </div>
-                <button class="test-item" type="button" data-test="accentuations">Акцентуації характеру</button>
-                <div class="test-description">
-                  <h4>Акцентуації характеру (за Леонгардом)</h4>
-                  <p>Методика для визначення типів акцентуації характеру за К. Леонгардом. Допомагає зрозуміти особливості темпераменту та характеру людини, що дозволяє прогнозувати поведінку в різних ситуаціях.</p>
-                </div>
-                <button class="test-item" type="button" data-test="szondi">Метод портретних виборів Л. Сонді</button>
-                <div class="test-description">
-                  <h4>Метод портретних виборів Л. Сонді</h4>
-                  <p>Проективна методика для дослідження несвідомих потягів та інстинктів. Використовує портрети людей з різними психічними розладами. Допомагає зрозуміти приховані мотиви та потреби.</p>
-                </div>
-                <button class="test-item" type="button" data-test="ctl">КТЛ - парний</button>
-                <div class="test-description">
-                  <h4>КТЛ - парний (Кільцевий тест Люшера)</h4>
-                  <p>Колірний тест Люшера для діагностики психоемоційного стану. Визначає рівень тривоги, стресу та загального емоційного комфорту. Показує, як людина справляється з життєвими труднощами.</p>
-                </div>
+              <button class="test-item" type="button" data-test="mmpi">MMPI (ММІЛ)</button>
+              <div class="test-description">
+                <h4>MMPI (Мінісотаський багатопрофільний тест особистості)</h4>
+                <p>Стандартний психодіагностичний інструмент для оцінки психологічних характеристик особистості. Використовується для діагностики психічних розладів та особистісних особливостей. Тест включає 567 питань та оцінює 10 основних шкал.</p>
+              </div>
+              <button class="test-item" type="button" data-test="accentuations">Акцентуації характеру</button>
+              <div class="test-description">
+                <h4>Акцентуації характеру (за Леонгардом)</h4>
+                <p>Методика для визначення типів акцентуації характеру за К. Леонгардом. Допомагає зрозуміти особливості темпераменту та характеру людини, що дозволяє прогнозувати поведінку в різних ситуаціях.</p>
+              </div>
+              <button class="test-item" type="button" data-test="szondi">Метод портретних виборів Л. Сонді</button>
+              <div class="test-description">
+                <h4>Метод портретних виборів Л. Сонді</h4>
+                <p>Проективна методика для дослідження несвідомих потягів та інстинктів. Використовує портрети людей з різними психічними розладами. Допомагає зрозуміти приховані мотиви та потреби.</p>
+              </div>
+              <button class="test-item" type="button" data-test="ctl">КТЛ - парний</button>
+              <div class="test-description">
+                <h4>КТЛ - парний (Кільцевий тест Люшера)</h4>
+                <p>Колірний тест Люшера для діагностики психоемоційного стану. Визначає рівень тривоги, стресу та загального емоційного комфорту. Показує, як людина справляється з життєвими труднощами.</p>
+              </div>
               </div>
             </div>
 
-            <div class="tests-category">
+          <!-- Спеціалізовані тести в кілька рядів -->
+          <div class="tests-category specialized-tests">
               <h3>Спеціалізовані тести</h3>
               <div class="tests-list">
                 <button class="test-item" type="button" data-test="asq3">ASQ-3</button>
@@ -343,25 +345,6 @@
       </section>
 
 
-      <section class="section" id="testimonials">
-        <div class="container">
-          <h2>Відгуки</h2>
-          <div class="testimonials">
-            <blockquote>
-              <p>"Відчуваю більше ясності та спокою після кожної зустрічі."</p>
-              <cite>— Марія</cite>
-            </blockquote>
-            <blockquote>
-              <p>"Професійно та з турботою. Рекомендую!"</p>
-              <cite>— Андрій</cite>
-            </blockquote>
-            <blockquote>
-              <p>"Тести допомогли побачити картину інакше, а план — діяти."</p>
-              <cite>— Олена</cite>
-            </blockquote>
-          </div>
-        </div>
-      </section>
 
       <section class="section section-alt" id="benefits">
         <div class="container">
@@ -558,7 +541,6 @@
                   <ul>
             <li><a href="#about">Про мене</a></li>
             <li><a href="#services">Послуги</a></li>
-            <li><a href="#testimonials">Відгуки</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#contact">Контакти</a></li>
             <li><a href="./privacy.html">Конфіденційність</a></li>
@@ -574,55 +556,7 @@
     </div>
     <button id="toTop" class="to-top" aria-label="До гори">↑</button>
   
-  <script>/* INLINE_JS_V161 */(function(){
-    function qs(s){return document.querySelector(s);} 
-    function qsa(s){return Array.from(document.querySelectorAll(s));}
-    function on(el,ev,cb){ if(el) el.addEventListener(ev,cb); }
-    document.addEventListener('DOMContentLoaded',function(){
-      var navToggle=qs('.nav-toggle'); var navMenu=qs('.nav-menu');
-      on(navToggle,'click',function(e){ e.preventDefault(); var expanded=(navToggle.getAttribute('aria-expanded')==='true'); navToggle.setAttribute('aria-expanded',String(!expanded)); document.body.classList.toggle('nav-open'); });
-      on(navMenu,'click',function(e){ var t=e.target; if(t && t.tagName && t.tagName.toLowerCase()==='a'){ document.body.classList.remove('nav-open'); navToggle&&navToggle.setAttribute('aria-expanded','false'); }});
-      var form=qs('#contactForm'); if(form){ form.setAttribute('action',''); var statusEl=qs('#formStatus');
-        on(form,'submit',async function(e){ e.preventDefault(); e.stopPropagation(); try{ form.setAttribute('action',''); }catch(_){} });});
-      }
-      var toTop=document.getElementById('toTop'); if(toTop){ on(window,'scroll',function(){ toTop.classList.toggle('show', window.scrollY>400); }); on(toTop,'click',function(){ window.scrollTo({top:0,behavior:'smooth'}); }); }
-    });
-  })();</script>
-  
 
-  <script>
-    // Accordion functionality for test descriptions
-    document.addEventListener('DOMContentLoaded', function() {
-      // Find all test buttons
-      const testButtons = document.querySelectorAll('.test-item[data-test]');
-
-      testButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-          // Find the description div that follows this button
-          const description = this.nextElementSibling;
-
-          if (description && description.classList.contains('test-description')) {
-            // Close all other descriptions first
-            document.querySelectorAll('.test-description.show').forEach(function(desc) {
-              desc.classList.remove('show');
-            });
-
-            // Remove active class from all buttons
-            document.querySelectorAll('.test-item.active').forEach(function(btn) {
-              btn.classList.remove('active');
-            });
-
-            // Open this description
-            description.classList.add('show');
-            this.classList.add('active');
-          }
-        });
-      });
-    });
-  </script>
-
-
-  <script src="/script.js?v=54"></script>
   </body>
   </html>
 <!-- Deploy test: Thu Sep 11 01:02:46 WEST 2025 -->

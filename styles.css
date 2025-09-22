@@ -1166,6 +1166,8 @@ small.error {
   transition: all 0.3s ease;
   max-height: 0;
   overflow: hidden;
+  grid-column: 1 / -1; /* Span across all grid columns */
+  width: 100%;
 }
 
 .test-description.show {
@@ -1195,6 +1197,70 @@ small.error {
   border-color: var(--brand-primary) !important;
   transform: translateY(-1px);
   box-shadow: var(--shadow-lg);
+}
+
+/* Show more/less tests button */
+.show-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.show-more-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.show-more-btn .show-more-icon {
+  transition: transform 0.3s ease;
+}
+
+.show-more-btn.expanded .show-more-icon {
+  transform: rotate(180deg);
+}
+
+.show-more-btn .show-less-text {
+  display: none;
+}
+
+.show-more-btn.expanded .show-more-text {
+  display: none;
+}
+
+.show-more-btn.expanded .show-less-text {
+  display: inline;
+}
+
+/* Hidden tests container */
+.hidden-tests {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Test Item Styles */
@@ -1434,8 +1500,8 @@ body { padding-top: var(--header-h); }
 
 /* Tests section */
 .tests-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 32px;
   margin-top: 24px;
 }
@@ -1450,6 +1516,30 @@ body { padding-top: var(--header-h); }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 8px;
+}
+
+/* Основні методики в один ряд */
+.main-tests .tests-list {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Спеціалізовані тести в кілька рядів */
+.specialized-tests .tests-list {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+/* Адаптивність для мобільних */
+@media (max-width: 768px) {
+  .main-tests .tests-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .main-tests .tests-list,
+  .specialized-tests .tests-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .test-item {
