@@ -19,13 +19,27 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Check FTP secrets
+      run: |
+        echo "🔍 Checking FTP secrets..."
+        echo "Server: '${{ secrets.FTPSERVER }}' (length: ${#secrets.FTPSERVER})"
+        echo "Port: '${{ secrets.FTPPORT }}' (length: ${#secrets.FTPPORT})"
+        echo "Username: '${{ secrets.USERFTP }}' (length: ${#secrets.USERFTP})"
+        echo "Password: '***' (length: ${#secrets.PASSWORDFTP})"
+        echo "Remote dir: '${{ secrets.FTP_REMOTE_DIR }}' (length: ${#secrets.FTP_REMOTE_DIR})"
+
+        # Check if secrets are not empty
+        if [ -z "${{ secrets.FTPSERVER }}" ]; then echo "❌ FTPSERVER is empty"; exit 1; fi
+        if [ -z "${{ secrets.FTPPORT }}" ]; then echo "❌ FTPPORT is empty"; exit 1; fi
+        if [ -z "${{ secrets.USERFTP }}" ]; then echo "❌ USERFTP is empty"; exit 1; fi
+        if [ -z "${{ secrets.PASSWORDFTP }}" ]; then echo "❌ PASSWORDFTP is empty"; exit 1; fi
+        if [ -z "${{ secrets.FTP_REMOTE_DIR }}" ]; then echo "❌ FTP_REMOTE_DIR is empty"; exit 1; fi
+
+        echo "✅ All secrets are present"
+
     - name: Test FTP connection
       run: |
         echo "Testing FTP connection..."
-        echo "Server: ${{ secrets.FTPSERVER }}"
-        echo "Port: ${{ secrets.FTPPORT }}"
-        echo "Username: ${{ secrets.USERFTP }}"
-        echo "Remote dir: ${{ secrets.FTP_REMOTE_DIR }}"
         # Test basic FTP connection
         timeout 10 bash -c "</dev/tcp/${{ secrets.FTPSERVER }}/${{ secrets.FTPPORT }}" && echo "✅ Port is open" || echo "❌ Port is closed or unreachable"
 
