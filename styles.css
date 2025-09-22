@@ -862,10 +862,10 @@ small.error {
 }
 
 .footer-grid {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: start;
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .site-footer .logo {
@@ -1030,9 +1030,7 @@ small.error {
   }
 
   .footer-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 2rem;
+    gap: 1rem;
   }
 
   .site-footer ul {
@@ -1044,11 +1042,12 @@ small.error {
   .footer-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem 2rem;
+    gap: 1rem 1.5rem;
     justify-content: center;
     list-style: none;
     padding: 0;
     margin: 0;
+    max-width: 100%;
   }
 
   .footer-links li {
