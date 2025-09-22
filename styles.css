@@ -1421,6 +1421,7 @@ small.error {
   overflow: hidden;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
+  width: 100%;
 }
 
 .testimonial-item {
@@ -1431,6 +1432,7 @@ small.error {
   padding: 2.5rem;
   text-align: center;
   transition: transform 0.5s ease;
+  box-sizing: border-box;
 }
 
 .testimonial-item p {

@@ -167,6 +167,12 @@ function initTestimonialsCarousel() {
   const nextBtn = document.querySelector('.testimonial-next');
   const dotsContainer = document.querySelector('.testimonial-dots');
 
+  console.log('Track found:', !!track);
+  console.log('Items found:', items.length);
+  console.log('Prev button found:', !!prevBtn);
+  console.log('Next button found:', !!nextBtn);
+  console.log('Dots container found:', !!dotsContainer);
+
   if (!track || !items.length) {
     console.log('=== TESTIMONIALS CAROUSEL ELEMENTS NOT FOUND ===');
     return;
@@ -175,15 +181,24 @@ function initTestimonialsCarousel() {
   let currentIndex = 0;
   const totalItems = items.length;
 
+  // Set track width for proper sliding
+  track.style.width = `${totalItems * 100}%`;
+  items.forEach(item => {
+    item.style.width = `${100 / totalItems}%`;
+  });
+
   // Create dots
+  console.log('Creating dots for', totalItems, 'items');
   items.forEach((_, index) => {
     const dot = document.createElement('div');
     dot.className = `testimonial-dot ${index === 0 ? 'active' : ''}`;
     dot.addEventListener('click', () => goToSlide(index));
     dotsContainer.appendChild(dot);
+    console.log('Dot', index, 'created');
   });
 
   const dots = document.querySelectorAll('.testimonial-dot');
+  console.log('Dots created:', dots.length);
 
   function updateCarousel() {
     const translateX = -currentIndex * 100;
