@@ -157,5 +157,80 @@ const toTop = document.getElementById('toTop');
   }
 });
 
+// Testimonials Carousel
+function initTestimonialsCarousel() {
+  console.log('=== INITIALIZING TESTIMONIALS CAROUSEL ===');
+
+  const track = document.querySelector('.testimonials-track');
+  const items = document.querySelectorAll('.testimonial-item');
+  const prevBtn = document.querySelector('.testimonial-prev');
+  const nextBtn = document.querySelector('.testimonial-next');
+  const dotsContainer = document.querySelector('.testimonial-dots');
+
+  if (!track || !items.length) {
+    console.log('=== TESTIMONIALS CAROUSEL ELEMENTS NOT FOUND ===');
+    return;
+  }
+
+  let currentIndex = 0;
+  const totalItems = items.length;
+
+  // Create dots
+  items.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.className = `testimonial-dot ${index === 0 ? 'active' : ''}`;
+    dot.addEventListener('click', () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.testimonial-dot');
+
+  function updateCarousel() {
+    const translateX = -currentIndex * 100;
+    track.style.transform = `translateX(${translateX}%)`;
+
+    // Update dots
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+    });
+  }
+
+  function goToSlide(index) {
+    currentIndex = index;
+    updateCarousel();
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % totalItems;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+    updateCarousel();
+  }
+
+  // Event listeners
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+  // Auto-play (optional)
+  let autoplayInterval = setInterval(nextSlide, 5000);
+
+  // Pause on hover
+  const container = document.querySelector('.testimonials-container');
+  if (container) {
+    container.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
+    container.addEventListener('mouseleave', () => {
+      autoplayInterval = setInterval(nextSlide, 5000);
+    });
+  }
+
+  console.log(`=== TESTIMONIALS CAROUSEL INITIALIZED: ${totalItems} items ===`);
+}
+
+// Initialize testimonials carousel
+initTestimonialsCarousel();
+
 // End of script.js
 console.log('Script loaded successfully');
