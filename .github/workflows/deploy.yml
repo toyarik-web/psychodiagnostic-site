@@ -19,6 +19,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Test FTP connection
+      run: |
+        echo "Testing FTP connection..."
+        echo "Server: ${{ secrets.FTPSERVER }}"
+        echo "Port: ${{ secrets.FTPPORT }}"
+        echo "Username: ${{ secrets.USERFTP }}"
+        echo "Remote dir: ${{ secrets.FTP_REMOTE_DIR }}"
+        # Test basic FTP connection
+        timeout 10 bash -c "</dev/tcp/${{ secrets.FTPSERVER }}/${{ secrets.FTPPORT }}" && echo "✅ Port is open" || echo "❌ Port is closed or unreachable"
+
     - name: Deploy via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -33,4 +43,5 @@ jobs:
           **/README.md
           **/deploy-prod.sh
           **/ftp_batch.txt
-        timeout: 30
+        timeout: 60
+        log-level: verbose
