@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initHeaderScroll();
   initAccordion();
   initFAQAccordion();
+  protectCertificates();
 
   // Navigation toggle
   const navToggle = document.querySelector('.nav-toggle');
@@ -202,6 +203,71 @@ function initFAQAccordion() {
 }
 
 // Testimonials functionality removed - using simple static display
+
+// Certificate modal functionality
+function openCertificateModal(imageSrc) {
+  const modal = document.getElementById('certificateModal');
+  const modalImg = document.getElementById('certificateModalImage');
+
+  modal.style.display = 'block';
+  modalImg.src = imageSrc;
+
+  // Prevent body scrolling when modal is open
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCertificateModal() {
+  const modal = document.getElementById('certificateModal');
+
+  modal.style.display = 'none';
+
+  // Restore body scrolling
+  document.body.style.overflow = 'auto';
+}
+
+// Protect certificates from copying
+function protectCertificates() {
+  // Disable right-click on certificate images
+  document.addEventListener('contextmenu', function(e) {
+    if (e.target.closest('.certifications-grid') || e.target.closest('.certificate-modal')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // Disable common copy shortcuts on certificate images
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C' || e.key === 's' || e.key === 'S' || e.key === 'a' || e.key === 'A')) {
+      if (document.activeElement.closest('.certifications-grid') || document.activeElement.closest('.certificate-modal')) {
+        e.preventDefault();
+        return false;
+      }
+    }
+
+    // Disable F12, Ctrl+Shift+I, Ctrl+U
+    if (e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.key === 'u') ||
+        (e.ctrlKey && e.key === 'U')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // Close modal when clicking outside
+  document.getElementById('certificateModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeCertificateModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('certificateModal').style.display === 'block') {
+      closeCertificateModal();
+    }
+  });
+}
 
 // End of script.js
 console.log('Script loaded successfully');
