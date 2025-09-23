@@ -40,12 +40,12 @@ jobs:
           echo "✅ All secrets are present"
 
       - name: Deploy to Air via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.3
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER_STAGING }}
           username: ${{ secrets.FTP_USER_STAGING }}
           password: ${{ secrets.FTP_PASS_STAGING }}
-          protocol: ftps
+          protocol: ftp
           server-dir: ${{ secrets.FTP_DIR_STAGING || '/' }}
           local-dir: ./
           exclude: |
@@ -53,8 +53,5 @@ jobs:
             **/.github/**
             **/.DS_Store
             README.md
-            **/deploy-prod.sh
-            **/ftp_batch.txt
-          timeout: 120
-          log-level: verbose
+          log-level: minimal
 
