@@ -45,7 +45,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER_STAGING }}
           username: ${{ secrets.FTP_USER_STAGING }}
           password: ${{ secrets.FTP_PASS_STAGING }}
-          protocol: ftp
+          protocol: ftps
           server-dir: ${{ secrets.FTP_DIR_STAGING || '/' }}
           local-dir: ./
           exclude: |
