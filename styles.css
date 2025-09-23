@@ -677,7 +677,16 @@ blockquote {
   backdrop-filter: blur(10px);
 }
 
-/* blockquote::before removed - quotes disabled */
+blockquote::before {
+  content: '"';
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  font-size: 4rem;
+  color: var(--brand-primary);
+  opacity: 0.3;
+  font-family: serif;
+}
 
 blockquote:hover {
   transform: translateY(-4px);
