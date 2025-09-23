@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: staging-air
+      name: staging
       url: https://air.psychodiagnostic.online
     steps:
       - name: Checkout
