@@ -1,4 +1,4 @@
-name: Deploy to staging via SSH (tar stream)
+name: Deploy to staging via FTP
 
 on:
   push:
@@ -6,27 +6,38 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  deploy:
-    name: Upload site files to staging
+  deploy-ftp:
+    name: Upload site files to staging via FTP
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Prepare SSH key
+      - name: Debug environment
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -p "${{ secrets.SFTP_PORT }}" -t rsa "${{ secrets.SFTP_HOST }}" >> ~/.ssh/known_hosts
+          echo "Current directory: $(pwd)"
+          echo "User: $(whoami)"
+          echo "Home: $HOME"
+          ls -la
+          mkdir -p ~/.ssh-test
+          echo "mkdir test successful"
 
-      - name: Upload via SSH tar stream
-        shell: bash
-        run: |
-          set -euo pipefail
-          remote_dir="${{ secrets.SFTP_REMOTE_DIR_STAGING }}"
-          ssh -i ~/.ssh/id_ed25519 -p "${{ secrets.SFTP_PORT }}" "${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_HOST }}" "mkdir -p \"$remote_dir\""
-          tar --exclude=.git --exclude=.github --exclude='**/.DS_Store' --exclude='**/node_modules/**' --exclude=psychodiagnostic-site.zip -czf - . \
-            | ssh -i ~/.ssh/id_ed25519 -p "${{ secrets.SFTP_PORT }}" "${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_HOST }}" "tar -xzf - -C \"$remote_dir\""
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTPSERVER }}
+          username: ${{ secrets.USERFTP }}
+          password: ${{ secrets.PASSWORDFTP }}
+          server-dir: ${{ secrets.FTP_REMOTE_DIR_STAGING || secrets.FTP_REMOTE_DIR }}
+          port: ${{ secrets.FTPPORT }}
+          protocol: ftps
+          exclude: |
+            **/.git*
+            **/.github*
+            **/README.md
+            **/deploy-prod.sh
+            **/ftp_batch.txt
+            **/psychodiagnostic-site.zip
+          timeout: 60
 

@@ -1,0 +1,34 @@
+name: Deploy to Production via FTP
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_deployment:
+        description: 'Type "deploy" to confirm production deployment'
+        required: true
+        default: 'deploy'
+
+jobs:
+  deploy-ftp:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm_deployment == 'deploy'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTPSERVER }}
+        username: ${{ secrets.USERFTP }}
+        password: ${{ secrets.PASSWORDFTP }}
+        server-dir: ${{ secrets.FTP_REMOTE_DIR }}
+        port: ${{ secrets.FTPPORT }}
+        exclude: |
+          **/.git*
+          **/.github*
+          **/README.md
+          **/deploy-prod.sh
+          **/ftp_batch.txt
+        timeout: 30

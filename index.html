@@ -17,12 +17,12 @@
     <meta name="theme-color" content="#6366f1" />
     <title>Психодіагностика — консультації, тести, підтримка</title>
 
-    <script src="/script.js?v=1007"></script>
+    <script src="/script.js?v=1008"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=90" />
+    <link rel="stylesheet" href="/styles.css?v=91" />
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "PsychoDiagnostic", "jobTitle": "Психолог", "description": "Психодіагностика та психологічні консультації", "url": "https://www.psychodiagnostic.online/", "sameAs": ["https://t.me/yourusername", "https://wa.me/00000000000"], "areaServed": "UA", "knowsAbout": ["психодіагностика", "консультації", "тести", "підтримка"], "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "hello@psychodiagnostic.example", "telephone": "+380000000000"}}</script>
     
   </head>
@@ -105,23 +105,31 @@
 
           <div class="certifications-grid">
             <div class="certification-item">
-              <img src="/Certifications/Гридковець.png" alt="Сертифікат психолога" loading="lazy">
+              <img src="/Certifications/Гридковець.png" alt="Сертифікат психолога" loading="lazy" onclick="openCertificateModal('/Certifications/Гридковець.png')">
             </div>
             <div class="certification-item">
-              <img src="/Certifications/Гридковець.jpg" alt="Сертифікат психолога" loading="lazy">
+              <img src="/Certifications/Гридковець.jpg" alt="Сертифікат психолога" loading="lazy" onclick="openCertificateModal('/Certifications/Гридковець.jpg')">
             </div>
             <div class="certification-item">
-              <img src="/Certifications/Гридковець (3).jpg" alt="Сертифікат психолога" loading="lazy">
+              <img src="/Certifications/Гридковець (3).jpg" alt="Сертифікат психолога" loading="lazy" onclick="openCertificateModal('/Certifications/Гридковець (3).jpg')">
             </div>
             <div class="certification-item">
-              <img src="/Certifications/Гридковець Ярослав-1.png" alt="Сертифікат психолога" loading="lazy">
+              <img src="/Certifications/Гридковець Ярослав-1.png" alt="Сертифікат психолога" loading="lazy" onclick="openCertificateModal('/Certifications/Гридковець Ярослав-1.png')">
             </div>
             <div class="certification-item">
-              <img src="/Certifications/Сертифікат_Гридковець_Ярослав_Олександрович_1-1.png" alt="Сертифікат психолога" loading="lazy">
+              <img src="/Certifications/Сертифікат_Гридковець_Ярослав_Олександрович_1-1.png" alt="Сертифікат психолога" loading="lazy" onclick="openCertificateModal('/Certifications/Сертифікат_Гридковець_Ярослав_Олександрович_1-1.png')">
             </div>
           </div>
         </div>
       </section>
+
+      <!-- Certificate Modal -->
+      <div id="certificateModal" class="certificate-modal">
+        <span class="certificate-modal-close" onclick="closeCertificateModal()">&times;</span>
+        <div class="certificate-modal-content">
+          <img id="certificateModalImage" class="certificate-modal-image" src="" alt="Сертифікат">
+        </div>
+      </div>
 
       <section class="section" id="services">
         <div class="container">

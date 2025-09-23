@@ -1,67 +1,57 @@
-name: Deploy to server via SCP
+name: Deploy to Production via FTP
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
+    inputs:
+      confirm_deployment:
+        description: 'Type "deploy" to confirm production deployment'
+        required: true
+        default: 'deploy'
 
 jobs:
-  deploy:
+  deploy-ftp:
     runs-on: ubuntu-latest
+    if: github.event.inputs.confirm_deployment == 'deploy'
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Test SSH connection
+    - name: Check FTP secrets
       run: |
-        echo "Testing SSH connection..."
-        mkdir -p ~/.ssh
-        chmod 700 ~/.ssh
-        ssh-keyscan -H ${{ secrets.SFTP_HOST }} >> ~/.ssh/known_hosts
-        chmod 600 ~/.ssh/known_hosts
-        echo "SSH host key added to known_hosts"
+        echo "🔍 Checking FTP secrets..."
+        echo "Server: '${{ secrets.FTPSERVER }}' (length: ${#secrets.FTPSERVER})"
+        echo "Port: '${{ secrets.FTPPORT }}' (length: ${#secrets.FTPPORT})"
+        echo "Username: '${{ secrets.USERFTP }}' (length: ${#secrets.USERFTP})"
+        echo "Password: '***' (length: ${#secrets.PASSWORDFTP})"
+        echo "Remote dir: '${{ secrets.FTP_REMOTE_DIR }}' (length: ${#secrets.FTP_REMOTE_DIR})"
 
-    - name: Deploy to server
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.SFTP_HOST }}
-        port: ${{ secrets.SFTP_PORT }}
-        username: ${{ secrets.SFTP_USERNAME }}
-        password: ${{ secrets.SFTP_PASSWORD }}
-        source: "."
-        target: ${{ secrets.SFTP_REMOTE_DIR }}
-        strip_components: 0
-        overwrite: true
-        rm: true
-        timeout: 30s
-        debug: true
+        # Check if secrets are not empty
+        if [ -z "${{ secrets.FTPSERVER }}" ]; then echo "❌ FTPSERVER is empty"; exit 1; fi
+        if [ -z "${{ secrets.FTPPORT }}" ]; then echo "❌ FTPPORT is empty"; exit 1; fi
+        if [ -z "${{ secrets.USERFTP }}" ]; then echo "❌ USERFTP is empty"; exit 1; fi
+        if [ -z "${{ secrets.PASSWORDFTP }}" ]; then echo "❌ PASSWORDFTP is empty"; exit 1; fi
+        if [ -z "${{ secrets.FTP_REMOTE_DIR }}" ]; then echo "❌ FTP_REMOTE_DIR is empty"; exit 1; fi
 
-    - name: Create config.php on server
+        echo "✅ All secrets are present"
+
+    - name: Test FTP connection
       run: |
-        echo "Creating config.php on server..."
-        ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }} ${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_HOST }} << 'EOF'
-        cd ${{ secrets.SFTP_REMOTE_DIR }}
-        cat > config.php << 'EOL'
-        <?php
-        return [
-          'host' => 'mail.adm.tools',
-          'port' => 587,
-          'secure' => 'tls',
-          'username' => 'info@psychodiagnostic.online',
-          'password' => '${{ secrets.SMTP_PASSWORD }}',
-          'from_email' => 'info@psychodiagnostic.online',
-          'from_name' => 'PsychoDiagnostic'
-        ];
-        EOL
-        echo "config.php created successfully"
-        ls -la config.php
-        EOF
+        echo "Testing FTP connection..."
+        # Test basic FTP connection
+        timeout 10 bash -c "</dev/tcp/${{ secrets.FTPSERVER }}/${{ secrets.FTPPORT }}" && echo "✅ Port is open" || echo "❌ Port is closed or unreachable"
 
-    - name: Alternative deployment method
-      if: failure()
+    - name: Deploy via LFTP (alternative FTP client)
       run: |
-        echo "Deployment failed. Manual steps:"
-        echo "1. Upload files to: ${{ secrets.SFTP_REMOTE_DIR }}"
-        echo "2. Create config.php on server with SMTP credentials"
-        echo "3. Test contact form functionality"
+        echo "Deploying via LFTP..."
+        sudo apt-get update && sudo apt-get install -y lftp
+
+        lftp -c "
+        set ftp:ssl-force true
+        set ftp:ssl-protect-data true
+        set ssl:verify-certificate no
+        open -u ${{ secrets.USERFTP }},${{ secrets.PASSWORDFTP }} ${{ secrets.FTPSERVER }}:${{ secrets.FTPPORT }}
+        cd ${{ secrets.FTP_REMOTE_DIR }}
+        mirror -R -v --exclude='^\.git' --exclude='^\.github' --exclude='README\.md' --exclude='deploy-prod\.sh' --exclude='ftp_batch\.txt' . .
+        bye
+        "
