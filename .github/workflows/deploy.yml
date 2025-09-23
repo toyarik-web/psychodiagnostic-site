@@ -31,4 +31,5 @@ jobs:
             README.md
             **/deploy-prod.sh
             **/ftp_batch.txt
+          timeout: 120
           log-level: minimal
