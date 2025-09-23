@@ -1,43 +1,35 @@
-name: Deploy to staging via FTP
+name: Deploy to Staging (staging.psychodiagnostic.online)
 
 on:
   push:
-    branches: ["staging"]
-  workflow_dispatch: {}
+    branches: [ staging ]
+  workflow_dispatch:
 
 jobs:
-  deploy-ftp:
-    name: Upload site files to staging via FTP
+  deploy:
     runs-on: ubuntu-latest
-
+    environment:
+      name: staging
+      url: https://staging.psychodiagnostic.online
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Debug environment
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "User: $(whoami)"
-          echo "Home: $HOME"
-          ls -la
-          mkdir -p ~/.ssh-test
-          echo "mkdir test successful"
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Deploy to Staging via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTPSERVER }}
-          username: ${{ secrets.USERFTP }}
-          password: ${{ secrets.PASSWORDFTP }}
-          server-dir: ${{ secrets.FTP_REMOTE_DIR_STAGING || secrets.FTP_REMOTE_DIR }}
-          port: ${{ secrets.FTPPORT }}
-          protocol: ftps
+          server: ${{ secrets.FTP_SERVER_STAGING }}
+          username: ${{ secrets.FTP_USER_STAGING }}
+          password: ${{ secrets.FTP_PASS_STAGING }}
+          protocol: ftp
+          server-dir: ${{ secrets.FTP_DIR_STAGING || '/' }}
+          local-dir: ./
           exclude: |
             **/.git*
-            **/.github*
-            **/README.md
+            **/.github/**
+            **/.DS_Store
+            README.md
             **/deploy-prod.sh
             **/ftp_batch.txt
-            **/psychodiagnostic-site.zip
-          timeout: 60
+          log-level: minimal
 

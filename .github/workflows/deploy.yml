@@ -1,57 +1,34 @@
-name: Deploy to Production via FTP
+name: Deploy to Production (psychodiagnostic.online)
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
-    inputs:
-      confirm_deployment:
-        description: 'Type "deploy" to confirm production deployment'
-        required: true
-        default: 'deploy'
 
 jobs:
-  deploy-ftp:
+  deploy:
     runs-on: ubuntu-latest
-    if: github.event.inputs.confirm_deployment == 'deploy'
-
+    environment:
+      name: production
+      url: https://psychodiagnostic.online
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Check FTP secrets
-      run: |
-        echo "🔍 Checking FTP secrets..."
-        echo "Server: '${{ secrets.FTPSERVER }}' (length: ${#secrets.FTPSERVER})"
-        echo "Port: '${{ secrets.FTPPORT }}' (length: ${#secrets.FTPPORT})"
-        echo "Username: '${{ secrets.USERFTP }}' (length: ${#secrets.USERFTP})"
-        echo "Password: '***' (length: ${#secrets.PASSWORDFTP})"
-        echo "Remote dir: '${{ secrets.FTP_REMOTE_DIR }}' (length: ${#secrets.FTP_REMOTE_DIR})"
-
-        # Check if secrets are not empty
-        if [ -z "${{ secrets.FTPSERVER }}" ]; then echo "❌ FTPSERVER is empty"; exit 1; fi
-        if [ -z "${{ secrets.FTPPORT }}" ]; then echo "❌ FTPPORT is empty"; exit 1; fi
-        if [ -z "${{ secrets.USERFTP }}" ]; then echo "❌ USERFTP is empty"; exit 1; fi
-        if [ -z "${{ secrets.PASSWORDFTP }}" ]; then echo "❌ PASSWORDFTP is empty"; exit 1; fi
-        if [ -z "${{ secrets.FTP_REMOTE_DIR }}" ]; then echo "❌ FTP_REMOTE_DIR is empty"; exit 1; fi
-
-        echo "✅ All secrets are present"
-
-    - name: Test FTP connection
-      run: |
-        echo "Testing FTP connection..."
-        # Test basic FTP connection
-        timeout 10 bash -c "</dev/tcp/${{ secrets.FTPSERVER }}/${{ secrets.FTPPORT }}" && echo "✅ Port is open" || echo "❌ Port is closed or unreachable"
-
-    - name: Deploy via LFTP (alternative FTP client)
-      run: |
-        echo "Deploying via LFTP..."
-        sudo apt-get update && sudo apt-get install -y lftp
-
-        lftp -c "
-        set ftp:ssl-force true
-        set ftp:ssl-protect-data true
-        set ssl:verify-certificate no
-        open -u ${{ secrets.USERFTP }},${{ secrets.PASSWORDFTP }} ${{ secrets.FTPSERVER }}:${{ secrets.FTPPORT }}
-        cd ${{ secrets.FTP_REMOTE_DIR }}
-        mirror -R -v --exclude='^\.git' --exclude='^\.github' --exclude='README\.md' --exclude='deploy-prod\.sh' --exclude='ftp_batch\.txt' . .
-        bye
-        "
+      - name: Deploy to Production via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER_PROD }}
+          username: ${{ secrets.FTP_USER_PROD }}
+          password: ${{ secrets.FTP_PASS_PROD }}
+          protocol: ftp
+          server-dir: ${{ secrets.FTP_DIR_PROD || '/' }}
+          local-dir: ./
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/.DS_Store
+            README.md
+            **/deploy-prod.sh
+            **/ftp_batch.txt
+          log-level: minimal
