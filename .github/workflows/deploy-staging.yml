@@ -14,6 +14,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug environment
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "User: $(whoami)"
+          echo "Home: $HOME"
+          ls -la
+          mkdir -p ~/.ssh-test
+          echo "mkdir test successful"
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
