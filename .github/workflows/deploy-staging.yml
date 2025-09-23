@@ -20,14 +20,24 @@ jobs:
           echo "🔍 FTP Configuration Debug:"
           echo "Server: '${{ secrets.FTP_SERVER_STAGING }}'"
           echo "Username: '${{ secrets.FTP_USER_STAGING }}'"
-          echo "Password length: ${#secrets.FTP_PASS_STAGING}"
+          echo "Password length: ${{ secrets.FTP_PASS_STAGING && '***' || 'EMPTY' }}"
           echo "Directory: '${{ secrets.FTP_DIR_STAGING || '/' }}'"
-          echo "Testing server connectivity..."
-          if ping -c 1 -W 5 ${{ secrets.FTP_SERVER_STAGING }} 2>/dev/null; then
-            echo "✅ Server is reachable"
-          else
-            echo "❌ Server is not reachable"
+
+          # Check if secrets are empty
+          if [ -z "${{ secrets.FTP_SERVER_STAGING }}" ]; then
+            echo "❌ FTP_SERVER_STAGING is empty"
+            exit 1
           fi
+          if [ -z "${{ secrets.FTP_USER_STAGING }}" ]; then
+            echo "❌ FTP_USER_STAGING is empty"
+            exit 1
+          fi
+          if [ -z "${{ secrets.FTP_PASS_STAGING }}" ]; then
+            echo "❌ FTP_PASS_STAGING is empty"
+            exit 1
+          fi
+
+          echo "✅ All secrets are present"
 
       - name: Deploy to Air via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
