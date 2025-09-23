@@ -40,7 +40,7 @@ jobs:
           echo "✅ All secrets are present"
 
       - name: Deploy to Air via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.3
         with:
           server: ${{ secrets.FTP_SERVER_STAGING }}
           username: ${{ secrets.FTP_USER_STAGING }}
